@@ -40,7 +40,7 @@ export default function PublicHomePage() {
       <section className="relative">
         <div className="public-orb -left-24 top-8 h-72 w-72 bg-primary/15" aria-hidden />
         <div className="public-orb -right-16 top-32 h-80 w-80 bg-sofra-gold/10" aria-hidden />
-        <div className="public-orb bottom-0 left-1/3 h-64 w-64 bg-emerald-400/10" aria-hidden />
+        <div className="public-orb bottom-0 left-1/3 h-64 w-64 bg-sofra-emerald/10" aria-hidden />
 
         <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-6 md:pb-28 md:pt-24">
           <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
