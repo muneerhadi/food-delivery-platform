@@ -104,6 +104,17 @@ export const adminApi = {
     ),
   analyticsTopDrivers: () =>
     api.get<ApiResponse<Array<{ driver: User; deliveries_count: number }>>>("/admin/analytics/top-drivers"),
+  profile: () => api.get<ApiResponse<User>>("/admin/profile"),
+  updateProfile: (payload: Partial<User>) => api.put<ApiResponse<User>>("/admin/profile", payload),
+  uploadAvatar: (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    return api.post<ApiResponse<User>>("/admin/profile/avatar", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  changePassword: (payload: { current_password: string; password: string; password_confirmation: string }) =>
+    api.put<ApiResponse<null>>("/admin/profile/password", payload),
 };
 
 export const restaurantApi = {

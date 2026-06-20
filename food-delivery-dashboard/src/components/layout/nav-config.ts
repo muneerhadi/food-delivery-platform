@@ -29,6 +29,7 @@ export const navByRole: Record<Exclude<UserRole, "customer">, NavItem[]> = {
     { label: "Promo Codes", href: "/admin/promos", icon: Percent },
     { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     { label: "Notifications", href: "/notifications", icon: Bell },
+    { label: "Settings", href: "/admin/settings", icon: UserRound },
   ],
   restaurant_owner: [
     { label: "Dashboard", href: "/restaurant", icon: Home },

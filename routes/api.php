@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\AdminAnalyticsController;
 use App\Http\Controllers\Api\Admin\AdminDashboardController;
 use App\Http\Controllers\Api\Admin\AdminOrderController;
+use App\Http\Controllers\Api\Admin\AdminProfileController;
 use App\Http\Controllers\Api\Admin\AdminPromoController;
 use App\Http\Controllers\Api\Admin\AdminRestaurantController;
 use App\Http\Controllers\Api\Admin\AdminUserController;
@@ -72,6 +73,11 @@ Route::middleware(['auth:sanctum', 'role:customer'])->group(function () {
 // Super Admin
 Route::middleware(['auth:sanctum', 'role:super_admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
+
+    Route::get('/profile', [AdminProfileController::class, 'show']);
+    Route::put('/profile', [AdminProfileController::class, 'update']);
+    Route::post('/profile/avatar', [AdminProfileController::class, 'uploadAvatar']);
+    Route::put('/profile/password', [AdminProfileController::class, 'changePassword']);
 
     Route::post('/restaurants/{id}/approve', [AdminRestaurantController::class, 'approve']);
     Route::post('/restaurants/{id}/reject', [AdminRestaurantController::class, 'reject']);
