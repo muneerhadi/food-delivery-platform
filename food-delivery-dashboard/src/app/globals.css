@@ -77,4 +77,114 @@
   .dark .dashboard-sidebar {
     @apply border-border bg-gradient-to-b from-primary/5 via-card to-card;
   }
+
+  .public-site {
+    @apply text-foreground;
+  }
+
+  .public-mesh-bg {
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(at 0% 0%, rgba(0, 93, 68, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(230, 165, 67, 0.06) 0px, transparent 45%),
+      radial-gradient(at 50% 100%, rgba(0, 93, 68, 0.05) 0px, transparent 55%);
+  }
+
+  .public-glass {
+    @apply border border-white/70 bg-white/75 shadow-[0_8px_32px_-12px_rgba(0,93,68,0.12)] backdrop-blur-xl;
+  }
+
+  .public-glass-header {
+    @apply border-b border-sofra-border/50 bg-background/80 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset] backdrop-blur-xl;
+  }
+
+  .public-orb {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+  }
+
+  .public-feature-card {
+    @apply group relative overflow-hidden rounded-3xl border border-sofra-border/80 bg-card/90 p-8 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_20px_40px_-20px_rgba(0,93,68,0.25)];
+  }
+
+  .public-feature-card::before {
+    content: "";
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+  }
+
+  .public-icon-shell {
+    @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sofra-softGreen to-primary/10 text-primary shadow-inner;
+  }
+
+  .public-cta-card {
+    @apply relative overflow-hidden rounded-[2rem] border border-primary/15 bg-gradient-to-br from-sofra-softGreen/80 via-card to-card p-10 shadow-[0_24px_64px_-32px_rgba(0,93,68,0.35)] md:p-14;
+  }
+
+  .public-cta-card::before {
+    content: "";
+    @apply pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl;
+  }
+
+  .public-cta-card::after {
+    content: "";
+    @apply pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-sofra-gold/10 blur-3xl;
+  }
+
+  .public-prose-page {
+    @apply relative;
+  }
+
+  .public-prose-page::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-sofra-softGreen/50 to-transparent;
+  }
+
+  .public-prose {
+    @apply space-y-8 text-[0.9375rem] leading-[1.75] text-muted-foreground;
+  }
+
+  .public-prose h2 {
+    @apply text-xl font-semibold tracking-tight text-foreground;
+  }
+
+  .public-prose section {
+    @apply space-y-3 rounded-2xl border border-sofra-border/60 bg-card/60 p-6 shadow-sm;
+  }
+
+  .public-prose ul {
+    @apply list-disc space-y-2 pl-5;
+  }
+
+  .public-prose a {
+    @apply font-medium text-primary underline-offset-4 transition hover:underline;
+  }
+
+  .public-btn-premium {
+    @apply rounded-xl shadow-[0_4px_14px_-4px_rgba(0,93,68,0.4)] transition-all duration-200 hover:shadow-[0_8px_24px_-6px_rgba(0,93,68,0.45)] hover:brightness-105;
+  }
+
+  .public-btn-outline-premium {
+    @apply rounded-xl border-sofra-border/80 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:bg-sofra-softGreen/50 hover:shadow-md;
+  }
+
+  .public-nav-link {
+    @apply relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
+  }
+
+  .public-nav-link::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-0 bg-primary transition-all duration-200 group-hover:w-full;
+  }
+
+  .public-logo-frame {
+    @apply relative rounded-[2rem] border border-white/80 bg-gradient-to-br from-white via-sofra-softGreen/30 to-white p-10 shadow-[0_32px_64px_-24px_rgba(0,93,68,0.2)] ring-1 ring-primary/5;
+  }
+
+  .public-logo-frame::before {
+    content: "";
+    @apply pointer-events-none absolute -inset-px rounded-[2rem] bg-gradient-to-br from-primary/10 via-transparent to-sofra-gold/10 opacity-60;
+  }
+
+  .public-stat-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-sofra-border/70 bg-white/70 px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-sm;
+  }
 }
