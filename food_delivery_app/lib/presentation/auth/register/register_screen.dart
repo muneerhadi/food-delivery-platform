@@ -178,6 +178,13 @@ class _RegisterCard extends StatelessWidget {
 class _TermsRow extends StatelessWidget {
   const _TermsRow();
 
+  Future<void> _open(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -193,20 +200,33 @@ class _TermsRow extends StatelessWidget {
               const Icon(Icons.check, size: 14, color: SofraColors.darkGreen),
         ),
         const SizedBox(width: 10),
-        const Expanded(
+        Expanded(
           child: Text.rich(
             TextSpan(
               text: 'I agree to the ',
+              style: const TextStyle(color: SofraColors.textSecondary, fontSize: 13),
               children: [
                 TextSpan(
-                  text: 'Terms & Privacy',
-                  style: TextStyle(
-                      color: SofraColors.darkGreen,
-                      fontWeight: FontWeight.w800),
+                  text: 'Terms',
+                  style: const TextStyle(
+                    color: SofraColors.darkGreen,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                      ..onTap = () => _open(SiteConstants.termsUrl),
+                ),
+                const TextSpan(text: ' & '),
+                TextSpan(
+                  text: 'Privacy',
+                  style: const TextStyle(
+                    color: SofraColors.darkGreen,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                      ..onTap = () => _open(SiteConstants.privacyUrl),
                 ),
               ],
             ),
-            style: TextStyle(color: SofraColors.textSecondary, fontSize: 13),
           ),
         ),
       ],
