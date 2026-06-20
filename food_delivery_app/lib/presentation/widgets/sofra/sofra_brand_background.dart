@@ -138,6 +138,76 @@ class SofraPrimaryButton extends StatelessWidget {
   }
 }
 
+/// Shared glass surface styling for onboarding / greeting screens.
+class SofraGlassSurface extends StatelessWidget {
+  const SofraGlassSurface({
+    super.key,
+    required this.child,
+    this.borderRadius = const BorderRadius.all(Radius.circular(18)),
+    this.padding = EdgeInsets.zero,
+    this.blurSigma = 18,
+    this.tint = SofraGlassTint.primary,
+  });
+
+  final Widget child;
+  final BorderRadius borderRadius;
+  final EdgeInsetsGeometry padding;
+  final double blurSigma;
+  final SofraGlassTint tint;
+
+  @override
+  Widget build(BuildContext context) {
+    final tintColors = switch (tint) {
+      SofraGlassTint.primary => (
+          top: Colors.white.withValues(alpha: 0.78),
+          bottom: SofraColors.softGreen.withValues(alpha: 0.42),
+          border: Colors.white.withValues(alpha: 0.92),
+          shadow: SofraColors.darkGreen.withValues(alpha: 0.16),
+        ),
+      SofraGlassTint.secondary => (
+          top: Colors.white.withValues(alpha: 0.62),
+          bottom: Colors.white.withValues(alpha: 0.28),
+          border: Colors.white.withValues(alpha: 0.82),
+          shadow: SofraColors.mutedGold.withValues(alpha: 0.12),
+        ),
+    };
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        boxShadow: [
+          BoxShadow(
+            color: tintColors.shadow,
+            blurRadius: 22,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: borderRadius,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+          child: Container(
+            padding: padding,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [tintColors.top, tintColors.bottom],
+              ),
+              borderRadius: borderRadius,
+              border: Border.all(color: tintColors.border, width: 1.35),
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum SofraGlassTint { primary, secondary }
+
 /// Frosted glass primary action — used on onboarding / greeting screens.
 class SofraGlassButton extends StatelessWidget {
   const SofraGlassButton({
@@ -153,62 +223,35 @@ class SofraGlassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: SofraColors.darkGreen.withValues(alpha: 0.14),
-            blurRadius: 24,
-            offset: const Offset(0, 12),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: isLoading ? null : onPressed,
-              child: Container(
-                width: double.infinity,
-                height: 56,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.white.withValues(alpha: 0.72),
-                      SofraColors.darkGreen.withValues(alpha: 0.22),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    width: 1.4,
-                  ),
-                ),
-                child: isLoading
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: SofraColors.darkGreen,
-                        ),
-                      )
-                    : Text(
-                        label,
-                        style: const TextStyle(
-                          color: SofraColors.darkGreen,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                        ),
+    return SofraGlassSurface(
+      tint: SofraGlassTint.primary,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isLoading ? null : onPressed,
+          borderRadius: BorderRadius.circular(18),
+          child: SizedBox(
+            width: double.infinity,
+            height: 56,
+            child: Center(
+              child: isLoading
+                  ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: SofraColors.darkGreen,
                       ),
-              ),
+                    )
+                  : Text(
+                      label,
+                      style: const TextStyle(
+                        color: SofraColors.darkGreen,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
             ),
           ),
         ),
@@ -230,41 +273,25 @@ class SofraGlassTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(14),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onPressed,
-            borderRadius: BorderRadius.circular(14),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withValues(alpha: 0.55),
-                    Colors.white.withValues(alpha: 0.28),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.75),
-                  width: 1.2,
-                ),
-              ),
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: SofraColors.mutedGold,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
+    return SofraGlassSurface(
+      tint: SofraGlassTint.secondary,
+      borderRadius: const BorderRadius.all(Radius.circular(14)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(14),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: SofraColors.mutedGold,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.15,
               ),
             ),
           ),

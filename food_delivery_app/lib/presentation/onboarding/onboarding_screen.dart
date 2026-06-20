@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:get/get.dart';
 
 import '../../app/routes/app_routes.dart';
@@ -94,38 +93,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             _Dots(currentPage: _currentPage, pageCount: _pages.length),
-            const SizedBox(height: 18),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.35),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.65),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      SofraGlassButton(
-                        label: _isLastPage ? 'Get Started' : 'Next',
-                        onPressed: _next,
-                      ),
-                      const SizedBox(height: 8),
-                      SofraGlassTextButton(
-                        label: _isLastPage ? 'Sign in' : 'Skip',
-                        onPressed: _goToAuth,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            const SizedBox(height: 20),
+            SofraGlassButton(
+              label: _isLastPage ? 'Get Started' : 'Next',
+              onPressed: _next,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
+            SofraGlassTextButton(
+              label: _isLastPage ? 'Sign in' : 'Skip',
+              onPressed: _goToAuth,
+            ),
+            const SizedBox(height: 14),
           ],
         ),
       ),
