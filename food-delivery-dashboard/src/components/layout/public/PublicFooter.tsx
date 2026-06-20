@@ -1,5 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
+import {
+  PublicNavLink,
+  PublicRouteButton,
+} from "@/components/layout/public/PublicActionButtons";
 
 export function PublicFooter() {
   return (
@@ -9,11 +15,13 @@ export function PublicFooter() {
           <p className="font-semibold">{siteConfig.name}</p>
           <p className="mt-1 text-sm text-muted-foreground">{siteConfig.tagline}</p>
         </div>
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-          <Link href="/privacy" className="hover:text-foreground">Privacy policy</Link>
-          <Link href="/terms" className="hover:text-foreground">Terms of service</Link>
-          <Link href={siteConfig.dashboardLoginPath} className="hover:text-foreground">Partner dashboard</Link>
-          <a href={`mailto:${siteConfig.supportEmail}`} className="hover:text-foreground">{siteConfig.supportEmail}</a>
+        <div className="flex flex-wrap items-center gap-4">
+          <PublicNavLink href="/privacy">Privacy policy</PublicNavLink>
+          <PublicNavLink href="/terms">Terms of service</PublicNavLink>
+          <PublicNavLink href={siteConfig.dashboardLoginPath}>Partner dashboard</PublicNavLink>
+          <a href={`mailto:${siteConfig.supportEmail}`} className="text-sm text-muted-foreground hover:text-foreground">
+            {siteConfig.supportEmail}
+          </a>
         </div>
         <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
       </div>

@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import { Apple, Play, Truck, UtensilsCrossed, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
+import {
+  PublicExternalButton,
+  PublicHashButton,
+  PublicNavLink,
+  PublicRouteButton,
+} from "@/components/layout/public/PublicActionButtons";
 
 const features = [
   {
@@ -29,17 +35,13 @@ export default function PublicHomePage() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="space-y-6">
             <p className="text-sm font-semibold uppercase tracking-wide text-primary">Food delivery made simple</p>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-              {siteConfig.tagline}
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">{siteConfig.description}</p>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">{siteConfig.tagline}</h1>
+            <p className="text-lg leading-relaxed text-muted-foreground">{siteConfig.description}</p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link href="#download">Download the app</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href={siteConfig.dashboardLoginPath}>Restaurant & driver login</Link>
-              </Button>
+              <PublicHashButton targetId="download" size="lg">Download the app</PublicHashButton>
+              <PublicRouteButton href={siteConfig.dashboardLoginPath} size="lg" variant="outline">
+                Restaurant & driver login
+              </PublicRouteButton>
             </div>
           </div>
           <div className="flex justify-center">
@@ -71,7 +73,7 @@ export default function PublicHomePage() {
             >
               <feature.icon className="h-8 w-8 text-primary" />
               <h3 className="mt-4 font-semibold">{feature.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -84,23 +86,19 @@ export default function PublicHomePage() {
             Order on your phone. Available for iOS and Android — download links below.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="min-w-[200px] gap-2">
-              <a href={siteConfig.appStoreUrl} target="_blank" rel="noopener noreferrer">
-                <Apple className="h-5 w-5" />
-                App Store
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="min-w-[200px] gap-2">
-              <a href={siteConfig.playStoreUrl} target="_blank" rel="noopener noreferrer">
-                <Play className="h-5 w-5" />
-                Google Play
-              </a>
-            </Button>
+            <PublicExternalButton href={siteConfig.appStoreUrl} size="lg" className="min-w-[200px]">
+              <Apple className="h-5 w-5" />
+              App Store
+            </PublicExternalButton>
+            <PublicExternalButton href={siteConfig.playStoreUrl} size="lg" variant="outline" className="min-w-[200px]">
+              <Play className="h-5 w-5" />
+              Google Play
+            </PublicExternalButton>
           </div>
           <p className="mt-6 text-xs text-muted-foreground">
             By using {siteConfig.name} you agree to our{" "}
-            <Link href="/terms" className="text-primary hover:underline">Terms</Link> and{" "}
-            <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
+            <PublicNavLink href="/terms" className="text-primary hover:text-primary">Terms</PublicNavLink> and{" "}
+            <PublicNavLink href="/privacy" className="text-primary hover:text-primary">Privacy Policy</PublicNavLink>.
           </p>
         </div>
       </section>
