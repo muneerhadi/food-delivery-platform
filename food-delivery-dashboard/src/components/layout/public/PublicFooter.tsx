@@ -4,7 +4,6 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 import {
   PublicNavLink,
-  PublicRouteButton,
 } from "@/components/layout/public/PublicActionButtons";
 
 const footerLinks = {
@@ -71,13 +70,9 @@ export function PublicFooter() {
             <ul className="mt-4 space-y-3">
               {footerLinks.partners.map((link) => (
                 <li key={link.href}>
-                  <PublicRouteButton
-                    href={link.href}
-                    variant="link"
-                    className="h-auto p-0 text-sm font-medium text-muted-foreground hover:text-foreground"
-                  >
+                  <PublicNavLink href={link.href} className="public-nav-link group text-sm">
                     {link.label}
-                  </PublicRouteButton>
+                  </PublicNavLink>
                 </li>
               ))}
             </ul>
