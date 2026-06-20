@@ -37,7 +37,7 @@ export default function RestaurantEarningsPage() {
   });
 
   const chartData =
-    historyData?.data?.map((row) => ({
+    historyData?.items?.map((row) => ({
       date: row.date as string,
       net: Number(row.net_amount ?? row.net ?? 0),
     })) ?? [];
@@ -91,11 +91,11 @@ export default function RestaurantEarningsPage() {
 
       <DataTable
         columns={columns}
-        data={(historyData?.data ?? []) as HistoryRow[]}
+        data={(historyData?.items ?? []) as HistoryRow[]}
         loading={isLoading}
         pagination={{
-          page: historyData?.current_page ?? 1,
-          totalPages: historyData?.last_page ?? 1,
+          page: historyData?.pagination?.current_page ?? 1,
+          totalPages: historyData?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

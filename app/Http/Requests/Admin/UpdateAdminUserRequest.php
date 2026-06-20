@@ -7,6 +7,13 @@ use Illuminate\Validation\Rule;
 
 class UpdateAdminUserRequest extends FormRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if ($this->input('role') === 'admin') {
+            $this->merge(['role' => 'super_admin']);
+        }
+    }
+
     public function authorize(): bool
     {
         return true;

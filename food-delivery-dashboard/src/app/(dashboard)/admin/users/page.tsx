@@ -15,9 +15,12 @@ import { useToast } from "@/hooks/useToast";
 import { formatDate } from "@/lib/utils";
 import type { User, UserRole } from "@/types";
 
-const debugRunId = `admin-users-${Date.now()}`;
-
-const roleOptions: UserRole[] = ["super_admin", "restaurant_owner", "driver", "customer"];
+const roleOptions: Array<{ value: UserRole; label: string }> = [
+  { value: "super_admin", label: "Admin" },
+  { value: "restaurant_owner", label: "Restaurant Owner" },
+  { value: "driver", label: "Driver" },
+  { value: "customer", label: "Customer" },
+];
 
 interface CreateUserForm {
   name: string;
@@ -46,86 +49,14 @@ export default function AdminUsersPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-users", search, role, page],
-    queryFn: async () => {
-      const params = {
+    queryFn: async () =>
+      (
+        await adminApi.users({
           page,
           search: search || undefined,
           role: role === "all" ? undefined : role,
-      };
-      // #region agent log
-      fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
-        body: JSON.stringify({
-          sessionId: "7cdf32",
-          runId: debugRunId,
-          hypothesisId: "H2_H4",
-          location: "src/app/(dashboard)/admin/users/page.tsx:50",
-          message: "users query request params",
-          data: {
-            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api",
-            params,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
-
-      try {
-        const response = await adminApi.users(params);
-        const payload = response.data?.data as Record<string, unknown> | undefined;
-        const items = payload?.items as unknown;
-        // #region agent log
-        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
-          body: JSON.stringify({
-            sessionId: "7cdf32",
-            runId: debugRunId,
-            hypothesisId: "H1_H5",
-            location: "src/app/(dashboard)/admin/users/page.tsx:77",
-            message: "users query response payload shape",
-            data: {
-              httpStatus: response.status,
-              payloadKeys: payload ? Object.keys(payload) : [],
-              itemsIsArray: Array.isArray(items),
-              itemsKeys:
-                items && typeof items === "object"
-                  ? Object.keys(items as Record<string, unknown>).slice(0, 10)
-                  : [],
-              itemsDataLength: Array.isArray((items as { data?: unknown[] } | undefined)?.data)
-                ? ((items as { data?: unknown[] }).data?.length ?? 0)
-                : null,
-              pagination: payload?.pagination ?? null,
-            },
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-        return response.data.data;
-      } catch (error) {
-        const e = error as { response?: { status?: number; data?: { message?: string } }; message?: string };
-        // #region agent log
-        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
-          body: JSON.stringify({
-            sessionId: "7cdf32",
-            runId: debugRunId,
-            hypothesisId: "H3_H4",
-            location: "src/app/(dashboard)/admin/users/page.tsx:108",
-            message: "users query failed",
-            data: {
-              status: e.response?.status ?? null,
-              message: e.response?.data?.message ?? e.message ?? "unknown",
-            },
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-        throw error;
-      }
-    },
+        })
+      ).data.data,
   });
 
   const reload = () => queryClient.invalidateQueries({ queryKey: ["admin-users"] });
@@ -208,8 +139,8 @@ export default function AdminUsersPage() {
           <SelectContent>
             <SelectItem value="all">All roles</SelectItem>
             {roleOptions.map((option) => (
-              <SelectItem key={option} value={option}>
-                {option.replace("_", " ")}
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -274,8 +205,8 @@ export default function AdminUsersPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {roleOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option.replace("_", " ")}
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

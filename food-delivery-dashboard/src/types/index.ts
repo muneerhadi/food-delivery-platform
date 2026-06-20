@@ -24,11 +24,18 @@ export interface ApiResponse<T> {
 }
 
 export interface Pagination<T> {
-  data: T[];
-  current_page: number;
-  last_page: number;
-  total: number;
-  per_page: number;
+  items: T[];
+  pagination: {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+  };
+  data?: T[];
+  current_page?: number;
+  last_page?: number;
+  total?: number;
+  per_page?: number;
 }
 
 export interface User {

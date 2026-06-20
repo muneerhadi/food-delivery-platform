@@ -56,7 +56,10 @@ const SelectContent = React.forwardRef<
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
-      className={cn("relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md", className)}
+      className={cn(
+        "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover/95 text-popover-foreground shadow-md backdrop-blur-sm supports-[backdrop-filter]:bg-popover/80",
+        className
+      )}
       position={position}
       {...props}
     >

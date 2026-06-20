@@ -149,11 +149,11 @@ export default function AdminPromosPage() {
 
       <DataTable
         columns={columns}
-        data={data?.data ?? []}
+        data={data?.items ?? []}
         loading={isLoading}
         pagination={{
-          page: data?.current_page ?? 1,
-          totalPages: data?.last_page ?? 1,
+          page: data?.pagination?.current_page ?? 1,
+          totalPages: data?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

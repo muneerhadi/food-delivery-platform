@@ -75,7 +75,7 @@ export default function DriverOrdersPage() {
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["driver-orders"],
-    queryFn: async () => (await driverApi.orders({ per_page: 100 })).data.data.data,
+    queryFn: async () => (await driverApi.orders({ per_page: 100 })).data.data.items ?? [],
   });
 
   const updateMutation = useMutation({

@@ -22,7 +22,7 @@ export default function DriverDashboardPage() {
 
   const { data: orders = [] } = useQuery({
     queryKey: ["driver-dashboard-orders"],
-    queryFn: async () => (await driverApi.orders({ per_page: 100 })).data.data.data,
+    queryFn: async () => (await driverApi.orders({ per_page: 100 })).data.data.items ?? [],
   });
 
   const { data: earnings } = useQuery({

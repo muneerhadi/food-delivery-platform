@@ -48,11 +48,11 @@ export default function DriverEarningsPage() {
 
       <DataTable
         columns={columns}
-        data={(historyData?.data ?? []) as EarningHistoryRow[]}
+        data={(historyData?.items ?? []) as EarningHistoryRow[]}
         loading={isLoading}
         pagination={{
-          page: historyData?.current_page ?? 1,
-          totalPages: historyData?.last_page ?? 1,
+          page: historyData?.pagination?.current_page ?? 1,
+          totalPages: historyData?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

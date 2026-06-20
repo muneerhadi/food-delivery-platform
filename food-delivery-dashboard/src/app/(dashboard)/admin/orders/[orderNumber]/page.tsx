@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { adminApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import type { OrderStatus } from "@/types";
+import type { OrderStatus, User } from "@/types";
 
 const statuses: OrderStatus[] = [
   "pending",
@@ -42,7 +42,12 @@ export default function AdminOrderDetailPage() {
 
   const { data: driverOptions } = useQuery({
     queryKey: ["admin-drivers"],
-    queryFn: async () => (await adminApi.users({ role: "driver", per_page: 100 })).data.data.data,
+    queryFn: async () => {
+      const payload = (await adminApi.users({ role: "driver", per_page: 100 })).data.data as unknown as {
+        items?: User[];
+      };
+      return payload.items ?? [];
+    },
   });
 
   const statusMutation = useMutation({

@@ -40,9 +40,9 @@ export default function AdminOrdersPage() {
         await adminApi.orders({
           page,
           status: status === "all" ? undefined : status,
-          order_number: search || undefined,
-          from_date: fromDate || undefined,
-          to_date: toDate || undefined,
+          search: search || undefined,
+          date_from: fromDate || undefined,
+          date_to: toDate || undefined,
         })
       ).data.data,
   });
@@ -88,12 +88,12 @@ export default function AdminOrdersPage() {
 
       <DataTable
         columns={columns}
-        data={data?.data ?? []}
+        data={data?.items ?? []}
         loading={isLoading}
         onRowClick={(row) => router.push(`/admin/orders/${row.order_number}`)}
         pagination={{
-          page: data?.current_page ?? 1,
-          totalPages: data?.last_page ?? 1,
+          page: data?.pagination?.current_page ?? 1,
+          totalPages: data?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

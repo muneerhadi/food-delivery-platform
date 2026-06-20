@@ -30,7 +30,7 @@ export default function RestaurantOrdersPage() {
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["restaurant-orders"],
-    queryFn: async () => (await restaurantApi.orders({ per_page: 100 })).data.data.data,
+    queryFn: async () => (await restaurantApi.orders({ per_page: 100 })).data.data.items ?? [],
   });
 
   const grouped = useMemo(

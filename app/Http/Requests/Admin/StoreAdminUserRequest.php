@@ -7,6 +7,13 @@ use Illuminate\Validation\Rule;
 
 class StoreAdminUserRequest extends FormRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if ($this->input('role') === 'admin') {
+            $this->merge(['role' => 'super_admin']);
+        }
+    }
+
     public function authorize(): bool
     {
         return true;
@@ -19,7 +26,7 @@ class StoreAdminUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
-            'role' => ['required', Rule::in(['restaurant_owner', 'driver'])],
+            'role' => ['required', Rule::in(['super_admin', 'restaurant_owner', 'driver', 'customer'])],
         ];
     }
 }
