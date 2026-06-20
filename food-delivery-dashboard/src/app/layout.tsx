@@ -6,8 +6,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sofra Dashboard",
-  description: "Role-based dashboard for food delivery operations",
+  title: "Sofra — Healthy meals, delivered fast",
+  description: siteConfig.description,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
