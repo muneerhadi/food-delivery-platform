@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,6 +14,7 @@ class AdminRestaurantResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'logo' => MediaUrl::public($this->logo, $request),
             'city' => $this->city,
             'phone' => $this->phone,
             'is_approved' => $this->is_approved,

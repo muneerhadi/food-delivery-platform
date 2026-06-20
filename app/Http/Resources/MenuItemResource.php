@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class MenuItemResource extends JsonResource
             'price' => $this->price,
             'sale_price' => $this->sale_price,
             'effective_price' => $this->sale_price ?? $this->price,
-            'image' => $this->image,
+            'image' => MediaUrl::public($this->image, $request),
             'is_featured' => $this->is_featured,
             'sort_order' => $this->sort_order,
         ];

@@ -16,7 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { restaurantApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, resolveMediaUrl } from "@/lib/utils";
 import type { Category } from "@/types";
 
 interface MenuItemForm {
@@ -290,9 +290,7 @@ export default function RestaurantMenuPage() {
                             category_id: String(item.category_id),
                             is_available: item.is_available,
                             imageFile: null,
-                            imagePreview: item.image
-                              ? `${(process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace("/api", "")}/storage/${item.image}`
-                              : null,
+                            imagePreview: resolveMediaUrl(item.image),
                           });
                           setItemDialogOpen(true);
                         }}

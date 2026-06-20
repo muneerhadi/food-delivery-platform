@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { adminApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, resolveMediaUrl } from "@/lib/utils";
 import type { Restaurant } from "@/types";
 
 export default function AdminRestaurantsPage() {
@@ -87,7 +87,7 @@ export default function AdminRestaurantsPage() {
             {row.logo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={`${(process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace("/api", "")}/storage/${row.logo}`}
+                src={resolveMediaUrl(row.logo) ?? ""}
                 alt={row.name}
                 className="h-full w-full object-cover"
               />

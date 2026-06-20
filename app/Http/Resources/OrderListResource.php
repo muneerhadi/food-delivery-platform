@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +23,7 @@ class OrderListResource extends JsonResource
             'items_count' => $this->whenCounted('items'),
             'restaurant' => $this->when($this->relationLoaded('restaurant') && $this->restaurant, fn () => [
                 'name' => $this->restaurant->name,
-                'logo' => $this->restaurant->logo,
+                'logo' => MediaUrl::public($this->restaurant->logo, $request),
             ]),
             'created_at' => $this->created_at,
         ];

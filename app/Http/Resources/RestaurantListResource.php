@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,8 +17,8 @@ class RestaurantListResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'logo' => $this->logo,
-            'cover_image' => $this->cover_image,
+            'logo' => MediaUrl::public($this->logo, $request),
+            'cover_image' => MediaUrl::public($this->cover_image, $request),
             'address' => $this->address,
             'city' => $this->city,
             'rating' => $this->rating,

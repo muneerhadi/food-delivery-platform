@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,14 +35,14 @@ class OrderResource extends JsonResource
             'restaurant' => $this->when($this->relationLoaded('restaurant') && $this->restaurant, fn () => [
                 'id' => $this->restaurant->id,
                 'name' => $this->restaurant->name,
-                'logo' => $this->restaurant->logo,
+                'logo' => MediaUrl::public($this->restaurant->logo, $request),
                 'phone' => $this->restaurant->phone,
             ]),
             'driver' => $this->when($this->relationLoaded('driver') && $this->driver, fn () => [
                 'id' => $this->driver->id,
                 'name' => $this->driver->name,
                 'phone' => $this->driver->phone,
-                'avatar' => $this->driver->avatar,
+                'avatar' => MediaUrl::public($this->driver->avatar, $request),
             ]),
         ];
     }

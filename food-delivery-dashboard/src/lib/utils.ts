@@ -21,6 +21,20 @@ export function formatDate(value?: string | null, fallback = "-") {
   return format(date, "MMM d, yyyy - HH:mm");
 }
 
+export function resolveMediaUrl(path?: string | null): string | null {
+  if (!path) return null;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+  const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace(/\/api\/?$/, "");
+  const normalized = path.replace(/^\/+/, "");
+
+  if (normalized.startsWith("storage/")) {
+    return `${base}/${normalized}`;
+  }
+
+  return `${base}/storage/${normalized}`;
+}
+
 export function titleFromPath(pathname: string) {
   const cleaned = pathname.replace(/^\/+/, "");
   if (!cleaned) return "Dashboard";

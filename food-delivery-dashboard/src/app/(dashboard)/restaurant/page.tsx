@@ -40,6 +40,8 @@ export default function RestaurantDashboardPage() {
   ];
 
   if (isLoading) return <LoadingSpinner label="Loading restaurant dashboard..." />;
+  const hasRestaurant = Boolean(data?.restaurant);
+  const isRestaurantOpen = Boolean(data?.restaurant?.is_open);
 
   return (
     <section className="space-y-6">
@@ -48,9 +50,18 @@ export default function RestaurantDashboardPage() {
         description="Daily performance snapshot for your restaurant."
         actions={
           <div className="flex items-center gap-3 rounded-xl border bg-card px-3 py-2">
-            <p className="text-sm font-medium">{data?.restaurant.is_open ? "Open" : "Closed"}</p>
-            <Switch checked={Boolean(data?.restaurant.is_open)} onCheckedChange={() => toggleMutation.mutate()} />
-            <Button size="sm" variant="outline" onClick={() => toggleMutation.mutate()} disabled={toggleMutation.isPending}>
+            <p className="text-sm font-medium">{hasRestaurant ? (isRestaurantOpen ? "Open" : "Closed") : "Unknown"}</p>
+            <Switch
+              checked={isRestaurantOpen}
+              onCheckedChange={() => hasRestaurant && toggleMutation.mutate()}
+              disabled={!hasRestaurant || toggleMutation.isPending}
+            />
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => hasRestaurant && toggleMutation.mutate()}
+              disabled={!hasRestaurant || toggleMutation.isPending}
+            >
               {toggleMutation.isPending ? "Updating..." : "Sync"}
             </Button>
           </div>

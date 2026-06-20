@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { restaurantApi, extractApiError } from "@/lib/api";
-import { useToast } from "@/hooks/useToast";
+import { resolveMediaUrl } from "@/lib/utils";
 
 interface SettingsForm {
   name: string;
@@ -68,9 +68,8 @@ export default function RestaurantSettingsPage() {
       delivery_time_max: data.delivery_time_max ? String(data.delivery_time_max) : "",
     });
 
-    const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace("/api", "");
-    setLogoUrl(data.logo ? `${base}/storage/${data.logo}` : null);
-    setCoverUrl(data.cover_image ? `${base}/storage/${data.cover_image}` : null);
+    setLogoUrl(resolveMediaUrl(data.logo));
+    setCoverUrl(resolveMediaUrl(data.cover_image));
   }, [data]);
 
   const saveMutation = useMutation({

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Restaurant;
 
+use App\Support\MediaUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,8 +15,8 @@ class RestaurantOwnerProfileResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'logo' => $this->logo,
-            'cover_image' => $this->cover_image,
+            'logo' => MediaUrl::public($this->logo, $request),
+            'cover_image' => MediaUrl::public($this->cover_image, $request),
             'address' => $this->address,
             'city' => $this->city,
             'phone' => $this->phone,
