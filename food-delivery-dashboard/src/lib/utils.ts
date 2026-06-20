@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
+import type { Order } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -33,6 +34,22 @@ export function resolveMediaUrl(path?: string | null): string | null {
   }
 
   return `${base}/storage/${normalized}`;
+}
+
+export function orderTotal(order: Pick<Order, "total" | "total_amount">): number {
+  const value = order.total_amount ?? order.total;
+  return Number.isFinite(value) ? value : 0;
+}
+
+export function orderItemCount(order: Pick<Order, "items" | "items_count">): number {
+  if (typeof order.items_count === "number") return order.items_count;
+  return order.items?.length ?? 0;
+}
+
+export function orderDeliveryAddress(order: Pick<Order, "delivery_address" | "address">): string {
+  if (order.delivery_address?.address) return order.delivery_address.address;
+  if (order.address?.address_line_1) return order.address.address_line_1;
+  return "-";
 }
 
 export function titleFromPath(pathname: string) {

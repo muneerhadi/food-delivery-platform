@@ -157,6 +157,11 @@ class Order extends Model
         return $query->where('driver_id', $driverId);
     }
 
+    public function scopeAvailableForDrivers(Builder $query): Builder
+    {
+        return $query->where('status', 'ready')->whereNull('driver_id');
+    }
+
     public function scopeDelivered(Builder $query): Builder
     {
         return $query->where('status', 'delivered');

@@ -11,6 +11,7 @@ use App\Traits\ApiResponse;
 use App\Traits\PaginatesApiResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DriverOrderController extends Controller
 {
@@ -22,9 +23,58 @@ class DriverOrderController extends Controller
         'on_the_way' => 'delivered',
     ];
 
+    public function available(Request $request): JsonResponse
+    {
+        $orders = Order::query()
+            ->availableForDrivers()
+            ->with(['customer:id,name,phone', 'restaurant:id,name,address,phone,lat,lng'])
+            ->latest()
+            ->paginate(15);
+
+        return $this->paginatedResponse(DriverOrderResource::collection($orders), $orders);
+    }
+
+    public function accept(Request $request, string $orderNumber): JsonResponse
+    {
+        $driver = $request->user();
+
+        if (! $driver->is_active) {
+            return $this->errorResponse('Your driver account is inactive.', 403);
+        }
+
+        $order = DB::transaction(function () use ($orderNumber, $driver) {
+            $order = Order::query()
+                ->where('order_number', $orderNumber)
+                ->availableForDrivers()
+                ->lockForUpdate()
+                ->first();
+
+            if (! $order) {
+                return null;
+            }
+
+            $order->update(['driver_id' => $driver->id]);
+
+            return $order;
+        });
+
+        if (! $order) {
+            return $this->errorResponse('Order is not available for pickup.', 422);
+        }
+
+        $order->load(['customer', 'restaurant', 'items']);
+
+        NotificationService::orderAssignedToDriver($order);
+
+        return $this->successResponse(
+            new DriverOrderResource($order),
+            'Order accepted successfully.'
+        );
+    }
+
     public function index(Request $request): JsonResponse
     {
-        $query = $request->user()->deliveries()->with(['customer:id,name,phone', 'restaurant:id,name']);
+        $query = $request->user()->deliveries()->with(['customer:id,name,phone', 'restaurant:id,name,address,phone,lat,lng']);
 
         $filter = $request->string('status', 'all')->toString();
 

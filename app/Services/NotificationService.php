@@ -88,6 +88,28 @@ class NotificationService
         );
     }
 
+    public static function notifyDriversOrderReady(Order $order): void
+    {
+        $order->loadMissing('restaurant');
+
+        $drivers = User::query()
+            ->where('role', 'driver')
+            ->where('is_active', true)
+            ->get();
+
+        $restaurantName = $order->restaurant?->name ?? 'the restaurant';
+
+        foreach ($drivers as $driver) {
+            self::send(
+                $driver->id,
+                'Order Ready for Pickup',
+                "Order {$order->order_number} is ready at {$restaurantName}.",
+                'order_ready',
+                ['order_number' => $order->order_number, 'status' => 'ready']
+            );
+        }
+    }
+
     public static function driverLocationUpdated(string $orderNumber, float $lat, float $lng, ?float $heading = null): void
     {
         event(new DriverLocationUpdated($orderNumber, $lat, $lng, $heading));

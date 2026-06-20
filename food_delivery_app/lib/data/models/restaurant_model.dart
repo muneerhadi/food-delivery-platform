@@ -1,3 +1,5 @@
+import '../../core/utils/media_url.dart';
+
 class RestaurantModel {
   final int id;
   final String name;
@@ -45,8 +47,8 @@ class RestaurantModel {
       name: json['name'] as String? ?? '',
       slug: json['slug'] as String? ?? '',
       description: json['description'] as String?,
-      logo: json['logo'] as String?,
-      coverImage: json['cover_image'] as String?,
+      logo: MediaUrl.resolve(json['logo'] as String?),
+      coverImage: MediaUrl.resolve(json['cover_image'] as String?),
       address: json['address'] as String? ?? '',
       city: json['city'] as String? ?? '',
       lat: _toDouble(json['lat']),
@@ -72,7 +74,7 @@ class RestaurantModel {
       id: 0,
       name: json['name'] as String? ?? '',
       slug: '',
-      logo: json['logo'] as String?,
+      logo: MediaUrl.resolve(json['logo'] as String?),
       address: '',
       city: '',
       rating: 0,

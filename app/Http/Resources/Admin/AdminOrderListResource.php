@@ -16,6 +16,7 @@ class AdminOrderListResource extends JsonResource
             'total' => $this->total,
             'payment_method' => $this->payment_method,
             'payment_status' => $this->payment_status,
+            'items_count' => $this->whenCounted('items'),
             'customer' => $this->when($this->relationLoaded('customer') && $this->customer, fn () => [
                 'name' => $this->customer->name,
             ]),

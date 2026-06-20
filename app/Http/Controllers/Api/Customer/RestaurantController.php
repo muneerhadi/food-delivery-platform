@@ -7,6 +7,7 @@ use App\Http\Resources\RestaurantDetailResource;
 use App\Http\Resources\RestaurantListResource;
 use App\Http\Resources\ReviewResource;
 use App\Models\Restaurant;
+use App\Support\MediaUrl;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -100,7 +101,7 @@ class RestaurantController extends Controller
     protected function paginatedResponse(mixed $resource, LengthAwarePaginator $paginator): JsonResponse
     {
         return $this->successResponse([
-            'items' => $resource,
+            'items' => MediaUrl::resolveResourceItems($resource, request()),
             'pagination' => [
                 'current_page' => $paginator->currentPage(),
                 'last_page' => $paginator->lastPage(),

@@ -25,7 +25,7 @@ class RestaurantOrderController extends RestaurantOwnerBaseController
             return $restaurant;
         }
 
-        $query = Order::forRestaurant($restaurant->id)->with('customer:id,name');
+        $query = Order::forRestaurant($restaurant->id)->with('customer:id,name')->withCount('items');
 
         if ($request->filled('status')) {
             $query->where('status', $request->string('status'));
@@ -100,6 +100,10 @@ class RestaurantOrderController extends RestaurantOwnerBaseController
             $request->status,
             $order
         );
+
+        if ($request->status === 'ready') {
+            NotificationService::notifyDriversOrderReady($order);
+        }
 
         return $this->successResponse(
             new AdminOrderResource($order->fresh(['customer', 'driver', 'items'])),

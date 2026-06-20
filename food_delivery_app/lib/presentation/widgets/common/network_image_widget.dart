@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../app/theme/app_colors.dart';
+import '../../../core/utils/media_url.dart';
 
 class NetworkImageWidget extends StatelessWidget {
   final String? url;
@@ -25,7 +26,8 @@ class NetworkImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = borderRadius ?? BorderRadius.zero;
-    if (url == null || url!.isEmpty) {
+    final resolvedUrl = MediaUrl.resolve(url);
+    if (resolvedUrl == null || resolvedUrl.isEmpty) {
       return ClipRRect(
         borderRadius: radius,
         child: placeholder ?? _defaultPlaceholder(),
@@ -34,7 +36,7 @@ class NetworkImageWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: radius,
       child: CachedNetworkImage(
-        imageUrl: url!,
+        imageUrl: resolvedUrl,
         width: width,
         height: height,
         fit: fit,

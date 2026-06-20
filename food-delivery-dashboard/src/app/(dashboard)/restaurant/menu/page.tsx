@@ -373,6 +373,7 @@ export default function RestaurantMenuPage() {
             </div>
             <ImageUpload
               value={itemForm.imagePreview}
+              onReject={(message) => toast.error(message)}
               onChange={(file) =>
                 setItemForm((prev) => ({
                   ...prev,

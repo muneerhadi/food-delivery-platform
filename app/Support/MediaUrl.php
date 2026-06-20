@@ -3,6 +3,8 @@
 namespace App\Support;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class MediaUrl
 {
@@ -22,10 +24,47 @@ class MediaUrl
             $normalized = substr($normalized, strlen('storage/'));
         }
 
-        $base = $request
-            ? rtrim($request->getSchemeAndHttpHost(), '/')
-            : rtrim(config('app.url'), '/');
+        return static::baseUrl($request).'/storage/'.$normalized;
+    }
 
-        return "{$base}/storage/{$normalized}";
+    public static function baseUrl(?Request $request = null): string
+    {
+        $request = $request ?? request();
+
+        if ($request && $request->getHttpHost()) {
+            return rtrim($request->getSchemeAndHttpHost(), '/');
+        }
+
+        $configured = rtrim((string) config('app.url'), '/');
+        $port = (int) config('app.port', 8000);
+
+        if ($port > 0 && ! static::urlHasPort($configured)) {
+            return "{$configured}:{$port}";
+        }
+
+        return $configured;
+    }
+
+    public static function resolveResourceItems(mixed $resource, ?Request $request = null): mixed
+    {
+        $request = $request ?? request();
+
+        if ($resource instanceof AnonymousResourceCollection) {
+            return $resource->resolve($request);
+        }
+
+        if ($resource instanceof JsonResource) {
+            return $resource->resolve($request);
+        }
+
+        return $resource;
+    }
+
+    private static function urlHasPort(string $url): bool
+    {
+        $host = parse_url($url, PHP_URL_HOST);
+        $port = parse_url($url, PHP_URL_PORT);
+
+        return $host !== null && $port !== null;
     }
 }

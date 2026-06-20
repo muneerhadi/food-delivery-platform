@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { restaurantApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatCurrency, formatDate, orderItemCount, orderTotal } from "@/lib/utils";
 import type { Order, OrderStatus } from "@/types";
 
 const statuses: OrderStatus[] = ["pending", "confirmed", "preparing", "ready"];
@@ -26,11 +26,17 @@ export default function RestaurantOrdersPage() {
   const toast = useToast();
   const queryClient = useQueryClient();
   const [tab, setTab] = useState<OrderStatus>("pending");
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrderNumber, setSelectedOrderNumber] = useState<string | null>(null);
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["restaurant-orders"],
     queryFn: async () => (await restaurantApi.orders({ per_page: 100 })).data.data.items ?? [],
+  });
+
+  const { data: selectedOrder, isLoading: detailLoading } = useQuery({
+    queryKey: ["restaurant-order", selectedOrderNumber],
+    queryFn: async () => (await restaurantApi.order(selectedOrderNumber!)).data.data,
+    enabled: Boolean(selectedOrderNumber),
   });
 
   const grouped = useMemo(
@@ -60,6 +66,7 @@ export default function RestaurantOrdersPage() {
     onSuccess: () => {
       toast.success("Order status updated");
       queryClient.invalidateQueries({ queryKey: ["restaurant-orders"] });
+      queryClient.invalidateQueries({ queryKey: ["restaurant-order"] });
       queryClient.invalidateQueries({ queryKey: ["restaurant-dashboard"] });
     },
     onError: (error) => toast.error(extractApiError(error, "Failed to update order status")),
@@ -85,7 +92,7 @@ export default function RestaurantOrdersPage() {
             ) : (
               <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 {grouped[status]?.map((order) => (
-                  <Card key={order.id} className="cursor-pointer hover:border-primary/50" onClick={() => setSelectedOrder(order)}>
+                  <Card key={order.id} className="cursor-pointer hover:border-primary/50" onClick={() => setSelectedOrderNumber(order.order_number)}>
                     <CardHeader>
                       <CardTitle className="flex items-center justify-between text-base">
                         <span>#{order.order_number}</span>
@@ -94,9 +101,9 @@ export default function RestaurantOrdersPage() {
                     </CardHeader>
                     <CardContent className="space-y-2 text-sm">
                       <p className="text-muted-foreground">
-                        {order.items.length} items - {order.customer?.name?.split(" ")[0] ?? "Customer"}
+                        {orderItemCount(order)} items - {order.customer?.name?.split(" ")[0] ?? "Customer"}
                       </p>
-                      <p className="font-semibold">{formatCurrency(order.total_amount)}</p>
+                      <p className="font-semibold">{formatCurrency(orderTotal(order))}</p>
                       <p className="text-xs text-muted-foreground">Placed {formatDate(order.created_at)}</p>
                     </CardContent>
                   </Card>
@@ -112,9 +119,11 @@ export default function RestaurantOrdersPage() {
         ))}
       </Tabs>
 
-      <Sheet open={Boolean(selectedOrder)} onOpenChange={(open) => !open && setSelectedOrder(null)}>
+      <Sheet open={Boolean(selectedOrderNumber)} onOpenChange={(open) => !open && setSelectedOrderNumber(null)}>
         <SheetContent>
-          {selectedOrder ? (
+          {detailLoading ? (
+            <p className="mt-4 text-sm text-muted-foreground">Loading order details...</p>
+          ) : selectedOrder ? (
             <>
               <SheetHeader>
                 <SheetTitle>Order #{selectedOrder.order_number}</SheetTitle>
@@ -127,10 +136,10 @@ export default function RestaurantOrdersPage() {
                 </p>
                 <p>
                   <span className="text-muted-foreground">Total: </span>
-                  {formatCurrency(selectedOrder.total_amount)}
+                  {formatCurrency(orderTotal(selectedOrder))}
                 </p>
                 <div className="space-y-1">
-                  {selectedOrder.items.map((item) => (
+                  {(selectedOrder.items ?? []).map((item) => (
                     <p key={item.id}>
                       {item.quantity}x {item.name}
                     </p>
@@ -154,7 +163,9 @@ export default function RestaurantOrdersPage() {
                 ) : null}
               </div>
             </>
-          ) : null}
+          ) : (
+            <p className="mt-4 text-sm text-muted-foreground">Order not found.</p>
+          )}
         </SheetContent>
       </Sheet>
     </section>

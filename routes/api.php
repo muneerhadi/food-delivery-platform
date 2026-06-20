@@ -120,6 +120,8 @@ Route::middleware(['auth:sanctum', 'role:restaurant_owner'])->prefix('restaurant
 
 // Driver
 Route::middleware(['auth:sanctum', 'role:driver'])->prefix('driver')->group(function () {
+    Route::get('/orders/available', [DriverOrderController::class, 'available']);
+    Route::post('/orders/{orderNumber}/accept', [DriverOrderController::class, 'accept']);
     Route::get('/orders', [DriverOrderController::class, 'index']);
     Route::get('/orders/{orderNumber}', [DriverOrderController::class, 'show']);
     Route::post('/orders/{orderNumber}/update-status', [DriverOrderController::class, 'updateStatus']);

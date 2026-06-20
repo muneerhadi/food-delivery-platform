@@ -1,3 +1,5 @@
+import '../../core/utils/media_url.dart';
+
 class MenuItemModel {
   final int id;
   final String name;
@@ -34,7 +36,7 @@ class MenuItemModel {
       price: price,
       salePrice: salePrice,
       effectivePrice: effective,
-      image: json['image'] as String?,
+      image: MediaUrl.resolve(json['image'] as String?),
       isFeatured: json['is_featured'] as bool? ?? false,
       categoryId: json['category_id'] as int?,
       restaurantId: json['restaurant_id'] as int?,

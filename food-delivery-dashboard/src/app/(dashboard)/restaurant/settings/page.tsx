@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { restaurantApi, extractApiError } from "@/lib/api";
+import { useToast } from "@/hooks/useToast";
 import { resolveMediaUrl } from "@/lib/utils";
 
 interface SettingsForm {
@@ -182,6 +183,7 @@ export default function RestaurantSettingsPage() {
           <CardContent>
             <ImageUpload
               value={logoUrl}
+              onReject={(message) => toast.error(message)}
               onChange={(file) => {
                 if (!file) return;
                 setLogoUrl(URL.createObjectURL(file));
@@ -198,6 +200,7 @@ export default function RestaurantSettingsPage() {
           <CardContent>
             <ImageUpload
               value={coverUrl}
+              onReject={(message) => toast.error(message)}
               onChange={(file) => {
                 if (!file) return;
                 setCoverUrl(URL.createObjectURL(file));

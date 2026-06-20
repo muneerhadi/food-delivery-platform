@@ -142,20 +142,28 @@ export interface Order {
   status: OrderStatus;
   payment_method?: string | null;
   payment_status: PaymentStatus;
-  subtotal: number;
-  delivery_fee: number;
-  discount_amount: number;
-  total_amount: number;
+  subtotal?: number;
+  delivery_fee?: number;
+  discount_amount?: number;
+  total?: number;
+  total_amount?: number;
+  items_count?: number;
   notes?: string | null;
   estimated_delivery_time?: string | null;
   delivered_at?: string | null;
   cancelled_at?: string | null;
   cancel_reason?: string | null;
+  delivery_address?: {
+    address?: string;
+    city?: string;
+    lat?: number | null;
+    lng?: number | null;
+  } | null;
   address?: Address;
   customer?: User;
   restaurant?: Restaurant;
   driver?: User | null;
-  items: OrderItem[];
+  items?: OrderItem[];
   created_at: string;
   updated_at?: string;
 }

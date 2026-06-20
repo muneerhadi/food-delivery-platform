@@ -160,6 +160,10 @@ export const restaurantApi = {
 
 export const driverApi = {
   dashboard: () => api.get<ApiResponse<DriverDashboard>>("/driver/dashboard"),
+  availableOrders: (params?: QueryParams) =>
+    api.get<ApiResponse<Pagination<Order>>>("/driver/orders/available", { params }),
+  acceptOrder: (orderNumber: string) =>
+    api.post<ApiResponse<Order>>(`/driver/orders/${orderNumber}/accept`),
   orders: (params?: QueryParams) =>
     api.get<ApiResponse<Pagination<Order>>>("/driver/orders", { params }),
   order: (orderNumber: string) => api.get<ApiResponse<Order>>(`/driver/orders/${orderNumber}`),
