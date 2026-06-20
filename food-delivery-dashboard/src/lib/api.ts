@@ -83,10 +83,6 @@ export const adminApi = {
   orders: (params?: QueryParams) =>
     api.get<ApiResponse<Pagination<Order>>>("/admin/orders", { params }),
   order: (orderNumber: string) => api.get<ApiResponse<Order>>(`/admin/orders/${orderNumber}`),
-  assignDriver: (orderNumber: string, driver_id: number) =>
-    api.post<ApiResponse<Order>>(`/admin/orders/${orderNumber}/assign-driver`, { driver_id }),
-  updateOrderStatus: (orderNumber: string, status: string) =>
-    api.post<ApiResponse<Order>>(`/admin/orders/${orderNumber}/update-status`, { status }),
   promos: (params?: QueryParams) =>
     api.get<ApiResponse<Pagination<PromoCode>>>("/admin/promos", { params }),
   promo: (id: number) => api.get<ApiResponse<PromoCode>>(`/admin/promos/${id}`),
@@ -113,8 +109,10 @@ export const adminApi = {
 export const restaurantApi = {
   dashboard: () => api.get<ApiResponse<RestaurantDashboard>>("/restaurant/dashboard"),
   profile: () => api.get<ApiResponse<Restaurant>>("/restaurant/profile"),
-  updateProfile: (payload: Partial<Restaurant>) =>
-    api.put<ApiResponse<Restaurant>>("/restaurant/profile", payload),
+  createProfile: (payload: RestaurantProfilePayload) =>
+    api.post<ApiResponse<Restaurant>>("/restaurant/profile", mapRestaurantProfilePayload(payload)),
+  updateProfile: (payload: RestaurantProfilePayload) =>
+    api.put<ApiResponse<Restaurant>>("/restaurant/profile", mapRestaurantProfilePayload(payload)),
   uploadLogo: (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
@@ -147,6 +145,13 @@ export const restaurantApi = {
   deleteMenuItem: (id: number) => api.delete<ApiResponse<null>>(`/restaurant/menu-items/${id}`),
   toggleMenuItemAvailability: (id: number) =>
     api.post<ApiResponse<MenuItem>>(`/restaurant/menu-items/${id}/toggle-availability`),
+  uploadMenuItemImage: (id: number, file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    return api.post<ApiResponse<MenuItem>>(`/restaurant/menu-items/${id}/image`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
   orders: (params?: QueryParams) =>
     api.get<ApiResponse<Pagination<Order>>>("/restaurant/orders", { params }),
   order: (orderNumber: string) => api.get<ApiResponse<Order>>(`/restaurant/orders/${orderNumber}`),
@@ -162,6 +167,8 @@ export const driverApi = {
   dashboard: () => api.get<ApiResponse<DriverDashboard>>("/driver/dashboard"),
   availableOrders: (params?: QueryParams) =>
     api.get<ApiResponse<Pagination<Order>>>("/driver/orders/available", { params }),
+  upcomingOrders: (params?: QueryParams) =>
+    api.get<ApiResponse<Pagination<Order>>>("/driver/orders/upcoming", { params }),
   acceptOrder: (orderNumber: string) =>
     api.post<ApiResponse<Order>>(`/driver/orders/${orderNumber}/accept`),
   orders: (params?: QueryParams) =>
@@ -177,6 +184,15 @@ export const driverApi = {
     api.get<ApiResponse<Pagination<Record<string, unknown>>>>("/driver/earnings/history", { params }),
   profile: () => api.get<ApiResponse<User>>("/driver/profile"),
   updateProfile: (payload: Partial<User>) => api.put<ApiResponse<User>>("/driver/profile", payload),
+  uploadAvatar: (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    return api.post<ApiResponse<User>>("/driver/profile/avatar", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  changePassword: (payload: { current_password: string; password: string; password_confirmation: string }) =>
+    api.put<ApiResponse<null>>("/driver/profile/password", payload),
 };
 
 export const customerApi = {
@@ -187,8 +203,9 @@ export const customerApi = {
 };
 
 export const notificationApi = {
-  list: () => api.get<ApiResponse<Notification[]>>("/notifications"),
-  markAsRead: (id: string) => api.post<ApiResponse<Notification>>(`/notifications/${id}/read`),
+  list: (params?: QueryParams) =>
+    api.get<ApiResponse<Pagination<Notification>>>("/notifications", { params }),
+  markAsRead: (id: number) => api.post<ApiResponse<Notification>>(`/notifications/${id}/read`),
   readAll: () => api.post<ApiResponse<null>>("/notifications/read-all"),
 };
 
@@ -199,3 +216,37 @@ export const extractApiError = (error: unknown, fallback = "Something went wrong
   }
   return fallback;
 };
+
+export const isNotFoundError = (error: unknown) =>
+  axios.isAxiosError(error) && error.response?.status === 404;
+
+type RestaurantProfilePayload = {
+  name?: string;
+  description?: string;
+  address?: string;
+  city?: string;
+  phone?: string;
+  email?: string;
+  opening_time?: string;
+  closing_time?: string;
+  min_order_amount?: number;
+  delivery_fee?: number;
+  delivery_time_min?: number;
+  delivery_time_max?: number;
+};
+
+function mapRestaurantProfilePayload(payload: RestaurantProfilePayload) {
+  return {
+    name: payload.name,
+    description: payload.description,
+    address: payload.address,
+    city: payload.city,
+    phone: payload.phone,
+    email: payload.email,
+    opening_time: payload.opening_time,
+    closing_time: payload.closing_time,
+    minimum_order: payload.min_order_amount,
+    delivery_fee: payload.delivery_fee,
+    delivery_time: payload.delivery_time_max ?? payload.delivery_time_min,
+  };
+}

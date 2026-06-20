@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Restaurant;
 
+use App\Http\Requests\Restaurant\StoreRestaurantProfileRequest;
 use App\Http\Requests\Restaurant\UpdateRestaurantProfileRequest;
 use App\Http\Requests\Restaurant\UploadImageRequest;
 use App\Http\Resources\Restaurant\RestaurantOwnerProfileResource;
+use App\Models\Restaurant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +21,28 @@ class RestaurantProfileController extends RestaurantOwnerBaseController
         }
 
         return $this->successResponse(new RestaurantOwnerProfileResource($restaurant));
+    }
+
+    public function store(StoreRestaurantProfileRequest $request): JsonResponse
+    {
+        if ($request->user()->restaurants()->exists()) {
+            return $this->errorResponse('You already have a restaurant profile.', 422);
+        }
+
+        $data = $request->validated();
+        $data['city'] = $data['city'] ?? 'General';
+        $data['user_id'] = $request->user()->id;
+        $data['is_open'] = false;
+        $data['is_approved'] = false;
+        $data['is_active'] = true;
+
+        $restaurant = Restaurant::create($data);
+
+        return $this->successResponse(
+            new RestaurantOwnerProfileResource($restaurant),
+            'Restaurant created successfully.',
+            201
+        );
     }
 
     public function update(UpdateRestaurantProfileRequest $request): JsonResponse

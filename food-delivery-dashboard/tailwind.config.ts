@@ -60,7 +60,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        card: "0 12px 30px -16px rgba(0, 93, 68, 0.35)",
+        card: "var(--shadow-card)",
       },
       backgroundImage: {
         "sofra-gradient": "linear-gradient(130deg, #005D44 0%, #007457 65%, #0A8A67 100%)",

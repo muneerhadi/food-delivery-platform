@@ -9,6 +9,7 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { adminApi } from "@/lib/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 import { formatCurrency } from "@/lib/utils";
 import type { Restaurant, User } from "@/types";
 
@@ -18,6 +19,7 @@ type TopDriverRow = { driver: User; deliveries_count: number };
 
 export default function AdminAnalyticsPage() {
   const [period, setPeriod] = useState<Period>("week");
+  const chart = useChartTheme();
 
   const { data: revenueData, isLoading: revenueLoading } = useQuery({
     queryKey: ["analytics-revenue", period],
@@ -75,11 +77,17 @@ export default function AdminAnalyticsPage() {
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={revenueData ?? []}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="revenue" stroke="#005D44" strokeWidth={3} />
+                  <CartesianGrid stroke={chart.grid} strokeDasharray="3 3" />
+                  <XAxis dataKey="period" stroke={chart.axis} tick={{ fill: chart.axis }} />
+                  <YAxis stroke={chart.axis} tick={{ fill: chart.axis }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: chart.tooltipBg,
+                      borderColor: chart.tooltipBorder,
+                      color: chart.tooltipText,
+                    }}
+                  />
+                  <Line type="monotone" dataKey="revenue" stroke={chart.line} strokeWidth={3} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -94,11 +102,17 @@ export default function AdminAnalyticsPage() {
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={ordersData ?? []}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="orders_count" fill="#E6A543" radius={6} />
+                  <CartesianGrid stroke={chart.grid} strokeDasharray="3 3" />
+                  <XAxis dataKey="period" stroke={chart.axis} tick={{ fill: chart.axis }} />
+                  <YAxis stroke={chart.axis} tick={{ fill: chart.axis }} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: chart.tooltipBg,
+                      borderColor: chart.tooltipBorder,
+                      color: chart.tooltipText,
+                    }}
+                  />
+                  <Bar dataKey="orders_count" fill={chart.bar} radius={6} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

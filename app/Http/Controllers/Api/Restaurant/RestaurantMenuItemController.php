@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Requests\Restaurant\StoreMenuItemRequest;
 use App\Http\Requests\Restaurant\UpdateMenuItemRequest;
+use App\Http\Requests\Restaurant\UploadImageRequest;
 use App\Http\Resources\MenuItemResource;
 use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RestaurantMenuItemController extends RestaurantOwnerBaseController
 {
@@ -123,6 +125,31 @@ class RestaurantMenuItemController extends RestaurantOwnerBaseController
         return $this->successResponse(
             new MenuItemResource($item->fresh()),
             'Menu item availability updated successfully.'
+        );
+    }
+
+    public function uploadImage(UploadImageRequest $request, int $id): JsonResponse
+    {
+        $restaurant = $this->ownedRestaurant($request);
+        if ($restaurant instanceof JsonResponse) {
+            return $restaurant;
+        }
+
+        $item = $this->findOwnedMenuItem($restaurant->id, $id);
+        if ($item instanceof JsonResponse) {
+            return $item;
+        }
+
+        if ($item->image) {
+            Storage::disk('public')->delete($item->image);
+        }
+
+        $path = $request->file('image')->store('restaurants/menu-items', 'public');
+        $item->update(['image' => $path]);
+
+        return $this->successResponse(
+            new MenuItemResource($item->fresh()),
+            'Menu item image uploaded successfully.'
         );
     }
 

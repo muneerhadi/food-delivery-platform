@@ -82,6 +82,13 @@ class RestaurantOrderController extends RestaurantOwnerBaseController
             return $this->errorResponse('Order not found.', 404);
         }
 
+        if (in_array($order->status, ['ready', 'picked_up', 'on_the_way', 'delivered', 'cancelled'], true)) {
+            return $this->errorResponse(
+                'This order is ready for pickup. The restaurant can no longer change its status.',
+                422
+            );
+        }
+
         $expectedStatus = self::ALLOWED_TRANSITIONS[$order->status] ?? null;
 
         if ($expectedStatus !== $request->status) {

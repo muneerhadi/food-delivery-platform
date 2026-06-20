@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { authApi } from "@/lib/api";
+import { queryClient } from "@/lib/queryClient";
 import type { User } from "@/types";
 
 interface AuthState {
@@ -10,6 +11,7 @@ interface AuthState {
   token: string | null;
   isLoading: boolean;
   setAuth: (user: User, token: string) => void;
+  updateUser: (user: User) => void;
   clearAuth: () => void;
   checkAuth: () => Promise<void>;
 }
@@ -21,12 +23,15 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isLoading: false,
       setAuth: (user, token) => {
+        queryClient.clear();
         if (typeof window !== "undefined") {
           localStorage.setItem("token", token);
         }
         set({ user, token, isLoading: false });
       },
+      updateUser: (user) => set({ user }),
       clearAuth: () => {
+        queryClient.clear();
         if (typeof window !== "undefined") {
           localStorage.removeItem("token");
         }

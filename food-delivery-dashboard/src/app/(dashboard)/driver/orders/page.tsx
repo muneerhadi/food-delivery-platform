@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -117,6 +118,10 @@ export default function DriverOrdersPage() {
 
   const activeOrders = useMemo(() => orders.filter((order) => activeStatuses.has(order.status)), [orders]);
   const completedOrders = useMemo(() => orders.filter((order) => completedStatuses.has(order.status)), [orders]);
+
+  if (loadingAvailable || loadingOrders) {
+    return <LoadingSpinner label="Loading orders..." />;
+  }
 
   return (
     <section className="space-y-6">

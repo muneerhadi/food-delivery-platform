@@ -15,7 +15,9 @@ abstract class RestaurantOwnerBaseController extends Controller
 
     protected function ownedRestaurant(Request $request): Restaurant|JsonResponse
     {
-        $restaurant = $request->user()->restaurants()->first();
+        $restaurant = Restaurant::query()
+            ->where('user_id', $request->user()->id)
+            ->first();
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found for this account.', 404);

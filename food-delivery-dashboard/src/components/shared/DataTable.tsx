@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { cn } from "@/lib/utils";
 
 export interface DataTableColumn<T> {
   key: string;
@@ -45,12 +46,12 @@ export function DataTable<T>({
 
   return (
     <div className="space-y-3">
-      <div className="overflow-hidden rounded-2xl border bg-card">
+      <div className="overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               {columns.map((column) => (
-                <TableHead key={column.key} className={column.className}>
+                <TableHead key={column.key} className={cn("bg-muted/40 text-xs uppercase tracking-wide", column.className)}>
                   {column.title}
                 </TableHead>
               ))}

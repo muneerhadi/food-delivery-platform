@@ -34,6 +34,17 @@ class DriverOrderController extends Controller
         return $this->paginatedResponse(DriverOrderResource::collection($orders), $orders);
     }
 
+    public function upcoming(Request $request): JsonResponse
+    {
+        $orders = Order::query()
+            ->upcomingForDrivers()
+            ->with(['customer:id,name,phone', 'restaurant:id,name,address,phone,lat,lng'])
+            ->latest()
+            ->paginate($request->integer('per_page', 15));
+
+        return $this->paginatedResponse(DriverOrderResource::collection($orders), $orders);
+    }
+
     public function accept(Request $request, string $orderNumber): JsonResponse
     {
         $driver = $request->user();

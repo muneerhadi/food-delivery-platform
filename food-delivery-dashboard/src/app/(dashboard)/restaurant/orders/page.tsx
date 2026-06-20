@@ -19,8 +19,15 @@ const nextStatusMap: Partial<Record<OrderStatus, OrderStatus>> = {
   pending: "confirmed",
   confirmed: "preparing",
   preparing: "ready",
-  ready: "picked_up",
 };
+
+const restaurantLockedStatuses: OrderStatus[] = [
+  "ready",
+  "picked_up",
+  "on_the_way",
+  "delivered",
+  "cancelled",
+];
 
 export default function RestaurantOrdersPage() {
   const toast = useToast();
@@ -160,6 +167,12 @@ export default function RestaurantOrdersPage() {
                       ? "Updating..."
                       : `Mark as ${nextStatusMap[selectedOrder.status]?.replace(/_/g, " ")}`}
                   </Button>
+                ) : restaurantLockedStatuses.includes(selectedOrder.status) ? (
+                  <p className="rounded-lg border border-dashed bg-muted/40 px-3 py-2 text-center text-xs text-muted-foreground">
+                    {selectedOrder.status === "ready"
+                      ? "This order is ready. Waiting for a driver to pick it up — you can no longer change the status."
+                      : "This order has moved past the kitchen. Status updates are handled by the driver."}
+                  </p>
                 ) : null}
               </div>
             </>

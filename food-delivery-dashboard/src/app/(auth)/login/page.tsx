@@ -67,18 +67,24 @@ export default function LoginPage() {
   });
 
   return (
-    <main className="grid min-h-screen place-items-center bg-sofra-bg px-4 py-8">
-      <Card className="w-full max-w-md border-sofra-border shadow-card">
-        <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-sofra-softGreen">
-            <Image src="/logo.png" alt="Sofra" width={56} height={56} className="h-14 w-14 object-contain" unoptimized />
-          </div>
-          <div>
-            <CardTitle className="text-2xl text-sofra-text">Sofra Dashboard</CardTitle>
-            <CardDescription>Sign in to manage operations</CardDescription>
+    <main className="grid min-h-screen place-items-center bg-muted/30 px-4 py-10">
+      <Card className="w-full max-w-md border-border/70 shadow-sm">
+        <CardHeader className="space-y-6 pb-2 text-center">
+          <Image
+            src="/logo.png"
+            alt="Sofra"
+            width={120}
+            height={120}
+            className="mx-auto h-24 w-auto object-contain"
+            unoptimized
+            priority
+          />
+          <div className="space-y-1">
+            <CardTitle className="text-2xl font-semibold">Welcome back</CardTitle>
+            <CardDescription>Sign in to your dashboard</CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-2">
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

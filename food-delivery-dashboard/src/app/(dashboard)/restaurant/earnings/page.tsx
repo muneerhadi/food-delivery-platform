@@ -9,6 +9,7 @@ import { StatCard } from "@/components/shared/StatCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { restaurantApi } from "@/lib/api";
+import { useChartTheme } from "@/hooks/useChartTheme";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 type Period = "week" | "month" | "year";
@@ -25,6 +26,7 @@ type HistoryRow = {
 export default function RestaurantEarningsPage() {
   const [period, setPeriod] = useState<Period>("week");
   const [page, setPage] = useState(1);
+  const chart = useChartTheme();
 
   const { data: summary } = useQuery({
     queryKey: ["restaurant-earnings-summary", period],
@@ -78,11 +80,17 @@ export default function RestaurantEarningsPage() {
           <div className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="net" stroke="#005D44" strokeWidth={2.5} />
+                <CartesianGrid stroke={chart.grid} strokeDasharray="3 3" />
+                <XAxis dataKey="date" stroke={chart.axis} tick={{ fill: chart.axis }} />
+                <YAxis stroke={chart.axis} tick={{ fill: chart.axis }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: chart.tooltipBg,
+                    borderColor: chart.tooltipBorder,
+                    color: chart.tooltipText,
+                  }}
+                />
+                <Line type="monotone" dataKey="net" stroke={chart.line} strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
           </div>

@@ -1,33 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Api\Customer;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Traits\ApiResponse;
+use App\Traits\PaginatesApiResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    use ApiResponse;
+    use ApiResponse, PaginatesApiResponses;
 
     public function index(Request $request): JsonResponse
     {
         $notifications = $request->user()
             ->appNotifications()
             ->latest()
-            ->paginate(15);
+            ->paginate($request->integer('per_page', 15));
 
-        return $this->successResponse([
-            'items' => NotificationResource::collection($notifications),
-            'pagination' => [
-                'current_page' => $notifications->currentPage(),
-                'last_page' => $notifications->lastPage(),
-                'per_page' => $notifications->perPage(),
-                'total' => $notifications->total(),
-            ],
-        ]);
+        return $this->paginatedResponse(
+            NotificationResource::collection($notifications),
+            $notifications
+        );
     }
 
     public function markAsRead(Request $request, int $id): JsonResponse

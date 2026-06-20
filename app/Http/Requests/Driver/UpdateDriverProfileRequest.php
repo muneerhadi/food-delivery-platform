@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Driver;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateDriverProfileRequest extends FormRequest
 {
@@ -15,6 +16,13 @@ class UpdateDriverProfileRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'email' => [
+                'sometimes',
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($this->user()->id),
+            ],
             'phone' => ['nullable', 'string', 'max:20'],
             'avatar' => ['nullable', 'string', 'max:500'],
         ];

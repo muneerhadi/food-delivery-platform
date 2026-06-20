@@ -52,7 +52,7 @@ export function ImageUpload({
           alt={label}
           width={360}
           height={180}
-          className="h-44 w-full rounded-xl object-cover"
+          className="h-full min-h-[140px] w-full rounded-xl object-cover"
           unoptimized
         />
       ) : (

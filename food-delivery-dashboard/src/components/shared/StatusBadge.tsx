@@ -27,7 +27,7 @@ const paymentVariantMap: Record<PaymentStatus, string> = {
 };
 
 const roleVariantMap: Record<UserRole, string> = {
-  super_admin: "bg-primary/15 text-primary",
+  super_admin: "bg-primary/15 text-primary dark:text-primary-foreground",
   restaurant_owner: "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200",
   driver: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-200",
   customer: "bg-slate-100 text-slate-700 dark:bg-slate-900/40 dark:text-slate-200",

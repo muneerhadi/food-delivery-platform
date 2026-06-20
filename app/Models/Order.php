@@ -162,6 +162,13 @@ class Order extends Model
         return $query->where('status', 'ready')->whereNull('driver_id');
     }
 
+    public function scopeUpcomingForDrivers(Builder $query): Builder
+    {
+        return $query
+            ->whereIn('status', ['confirmed', 'preparing'])
+            ->whereNull('driver_id');
+    }
+
     public function scopeDelivered(Builder $query): Builder
     {
         return $query->where('status', 'delivered');

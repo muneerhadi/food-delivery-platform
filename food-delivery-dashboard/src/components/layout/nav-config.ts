@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  Bell,
   Home,
   MenuSquare,
   Percent,
@@ -27,17 +28,21 @@ export const navByRole: Record<Exclude<UserRole, "customer">, NavItem[]> = {
     { label: "Orders", href: "/admin/orders", icon: ReceiptText },
     { label: "Promo Codes", href: "/admin/promos", icon: Percent },
     { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+    { label: "Notifications", href: "/notifications", icon: Bell },
   ],
   restaurant_owner: [
     { label: "Dashboard", href: "/restaurant", icon: Home },
     { label: "Menu", href: "/restaurant/menu", icon: MenuSquare },
     { label: "Orders", href: "/restaurant/orders", icon: ReceiptText },
     { label: "Earnings", href: "/restaurant/earnings", icon: WalletCards },
+    { label: "Notifications", href: "/notifications", icon: Bell },
     { label: "Settings", href: "/restaurant/settings", icon: UserRound },
   ],
   driver: [
     { label: "Dashboard", href: "/driver", icon: Home },
     { label: "My Orders", href: "/driver/orders", icon: Truck },
     { label: "Earnings", href: "/driver/earnings", icon: WalletCards },
+    { label: "Notifications", href: "/notifications", icon: Bell },
+    { label: "Settings", href: "/driver/settings", icon: UserRound },
   ],
 };

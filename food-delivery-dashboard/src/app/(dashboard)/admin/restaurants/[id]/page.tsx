@@ -1,12 +1,19 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ArrowLeft, Store } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
+import { InfoRow } from "@/components/shared/InfoRow";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
+import { PageSection } from "@/components/shared/PageSection";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { adminApi } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/utils";
 
 export default function AdminRestaurantDetailPage() {
   const params = useParams<{ id: string }>();
@@ -19,74 +26,84 @@ export default function AdminRestaurantDetailPage() {
   });
 
   if (isLoading) return <LoadingSpinner label="Loading restaurant details..." />;
-  if (!data) return <p className="text-sm text-muted-foreground">Restaurant not found.</p>;
+  if (!data) {
+    return (
+      <PageShell>
+        <p className="text-sm text-muted-foreground">Restaurant not found.</p>
+      </PageShell>
+    );
+  }
+
+  const logoUrl = resolveMediaUrl(data.logo);
+  const coverUrl = resolveMediaUrl(data.cover_image);
 
   return (
-    <section className="space-y-6">
-      <PageHeader title={data.name} description="Restaurant detail and owner information." />
+    <PageShell>
+      <PageHeader
+        title={data.name}
+        description="Full restaurant profile and owner contact details."
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link href="/admin/restaurants">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to list
+            </Link>
+          </Button>
+        }
+      />
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Restaurant Info</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-3 text-sm sm:grid-cols-2">
-            <p>
-              <span className="text-muted-foreground">Slug: </span>
-              {data.slug}
-            </p>
-            <p>
-              <span className="text-muted-foreground">City: </span>
-              {data.city ?? "-"}
-            </p>
-            <p>
-              <span className="text-muted-foreground">Phone: </span>
-              {data.phone ?? "-"}
-            </p>
-            <p>
-              <span className="text-muted-foreground">Email: </span>
-              {data.email ?? "-"}
-            </p>
-            <p>
-              <span className="text-muted-foreground">Commission: </span>
-              {data.commission_rate ?? 0}%
-            </p>
-            <div className="flex items-center gap-2">
-              <StatusBadge value={data.is_approved ? "approved" : "pending"} type="active" />
-              <StatusBadge value={data.is_active ? "active" : "inactive"} type="active" />
-              <StatusBadge value={data.is_open ? "open" : "closed"} type="active" />
+      <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm">
+        <div className="relative h-40 bg-muted/40 sm:h-48">
+          {coverUrl ? (
+            <Image src={coverUrl} alt={`${data.name} cover`} fill className="object-cover" unoptimized />
+          ) : null}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="absolute bottom-4 left-4 flex items-end gap-3">
+            <div className="relative h-16 w-16 overflow-hidden rounded-xl border-2 border-white/90 bg-card shadow-md">
+              {logoUrl ? (
+                <Image src={logoUrl} alt={data.name} fill className="object-cover" unoptimized />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <Store className="h-6 w-6 text-muted-foreground" />
+                </div>
+              )}
             </div>
-            <p className="sm:col-span-2">
-              <span className="text-muted-foreground">Address: </span>
-              {data.address ?? "-"}
-            </p>
-            <p className="sm:col-span-2">
-              <span className="text-muted-foreground">Description: </span>
-              {data.description ?? "-"}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Owner</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            <p>
-              <span className="text-muted-foreground">Name: </span>
-              {data.owner?.name ?? "-"}
-            </p>
-            <p>
-              <span className="text-muted-foreground">Email: </span>
-              {data.owner?.email ?? "-"}
-            </p>
-            <p>
-              <span className="text-muted-foreground">Phone: </span>
-              {data.owner?.phone ?? "-"}
-            </p>
-          </CardContent>
-        </Card>
+            <div className="text-white">
+              <p className="font-semibold">{data.name}</p>
+              <p className="text-sm text-white/85">{data.city ?? data.address ?? "—"}</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 p-4">
+          <StatusBadge value={data.is_approved ? "approved" : "pending"} type="active" />
+          <StatusBadge value={data.is_active ? "active" : "inactive"} type="active" />
+          <StatusBadge value={data.is_open ? "open" : "closed"} type="active" />
+        </div>
       </div>
-    </section>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <PageSection title="Restaurant details" contentClassName="space-y-3">
+          <InfoRow label="Slug" value={data.slug} />
+          <InfoRow label="Phone" value={data.phone ?? "—"} />
+          <InfoRow label="Email" value={data.email ?? "—"} />
+          <InfoRow label="Address" value={data.address ?? "—"} />
+          <InfoRow label="City" value={data.city ?? "—"} />
+          <InfoRow label="Commission" value={`${data.commission_rate ?? 0}%`} />
+          <InfoRow label="Rating" value={`${Number(data.average_rating ?? 0).toFixed(1)} (${data.total_reviews ?? 0} reviews)`} />
+          {data.description ? (
+            <div className="pt-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Description</p>
+              <p className="mt-1 text-sm">{data.description}</p>
+            </div>
+          ) : null}
+        </PageSection>
+
+        <PageSection title="Owner" contentClassName="space-y-3">
+          <InfoRow label="Name" value={data.owner?.name ?? "—"} />
+          <InfoRow label="Email" value={data.owner?.email ?? "—"} />
+          <InfoRow label="Phone" value={data.owner?.phone ?? "—"} />
+        </PageSection>
+      </div>
+    </PageShell>
   );
 }

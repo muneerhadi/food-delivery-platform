@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FcmTokenController;
 use App\Http\Controllers\Api\Customer\AddressController;
 use App\Http\Controllers\Api\Customer\MenuController;
-use App\Http\Controllers\Api\Customer\NotificationController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\Customer\OrderController;
 use App\Http\Controllers\Api\Customer\ProfileController;
 use App\Http\Controllers\Api\Customer\PromoController;
@@ -36,6 +36,10 @@ Route::prefix('auth')->group(function () {
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/register-token', [FcmTokenController::class, 'register']);
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
@@ -63,10 +67,6 @@ Route::middleware(['auth:sanctum', 'role:customer'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::put('/profile/password', [ProfileController::class, 'changePassword']);
-
-    Route::get('/notifications', [NotificationController::class, 'index']);
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 // Super Admin
@@ -82,8 +82,6 @@ Route::middleware(['auth:sanctum', 'role:super_admin'])->prefix('admin')->group(
 
     Route::get('/orders', [AdminOrderController::class, 'index']);
     Route::get('/orders/{orderNumber}', [AdminOrderController::class, 'show']);
-    Route::post('/orders/{orderNumber}/assign-driver', [AdminOrderController::class, 'assignDriver']);
-    Route::post('/orders/{orderNumber}/update-status', [AdminOrderController::class, 'updateStatus']);
 
     Route::apiResource('/promos', AdminPromoController::class);
 
@@ -99,6 +97,7 @@ Route::middleware(['auth:sanctum', 'role:super_admin'])->prefix('admin')->group(
 Route::middleware(['auth:sanctum', 'role:restaurant_owner'])->prefix('restaurant')->group(function () {
     Route::get('/dashboard', [RestaurantDashboardController::class, 'index']);
     Route::get('/profile', [RestaurantProfileController::class, 'show']);
+    Route::post('/profile', [RestaurantProfileController::class, 'store']);
     Route::put('/profile', [RestaurantProfileController::class, 'update']);
     Route::post('/profile/logo', [RestaurantProfileController::class, 'uploadLogo']);
     Route::post('/profile/cover', [RestaurantProfileController::class, 'uploadCover']);
@@ -108,6 +107,7 @@ Route::middleware(['auth:sanctum', 'role:restaurant_owner'])->prefix('restaurant
     Route::apiResource('/categories', RestaurantCategoryController::class)->except(['show']);
 
     Route::post('/menu-items/{id}/toggle-availability', [RestaurantMenuItemController::class, 'toggleAvailability']);
+    Route::post('/menu-items/{id}/image', [RestaurantMenuItemController::class, 'uploadImage']);
     Route::apiResource('/menu-items', RestaurantMenuItemController::class);
 
     Route::get('/orders', [RestaurantOrderController::class, 'index']);
@@ -120,6 +120,7 @@ Route::middleware(['auth:sanctum', 'role:restaurant_owner'])->prefix('restaurant
 
 // Driver
 Route::middleware(['auth:sanctum', 'role:driver'])->prefix('driver')->group(function () {
+    Route::get('/orders/upcoming', [DriverOrderController::class, 'upcoming']);
     Route::get('/orders/available', [DriverOrderController::class, 'available']);
     Route::post('/orders/{orderNumber}/accept', [DriverOrderController::class, 'accept']);
     Route::get('/orders', [DriverOrderController::class, 'index']);
@@ -131,5 +132,6 @@ Route::middleware(['auth:sanctum', 'role:driver'])->prefix('driver')->group(func
     Route::get('/earnings/history', [DriverEarningsController::class, 'history']);
     Route::get('/profile', [DriverProfileController::class, 'show']);
     Route::put('/profile', [DriverProfileController::class, 'update']);
+    Route::post('/profile/avatar', [DriverProfileController::class, 'uploadAvatar']);
     Route::put('/profile/password', [DriverProfileController::class, 'changePassword']);
 });

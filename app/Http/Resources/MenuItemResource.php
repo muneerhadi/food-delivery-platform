@@ -21,6 +21,9 @@ class MenuItemResource extends JsonResource
             'sale_price' => $this->sale_price,
             'effective_price' => $this->sale_price ?? $this->price,
             'image' => MediaUrl::public($this->image, $request),
+            'is_available' => $this->is_available,
+            'category_id' => $this->category_id,
+            'restaurant_id' => $this->restaurant_id,
             'is_featured' => $this->is_featured,
             'sort_order' => $this->sort_order,
         ];

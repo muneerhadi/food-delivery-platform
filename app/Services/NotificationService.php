@@ -67,6 +67,21 @@ class NotificationService
                 ['order_number' => $order->order_number, 'restaurant_id' => $order->restaurant_id]
             );
         }
+
+        $admins = User::query()
+            ->where('role', 'super_admin')
+            ->where('is_active', true)
+            ->get();
+
+        foreach ($admins as $admin) {
+            self::send(
+                $admin->id,
+                'New Order',
+                "Order {$order->order_number} was placed at {$order->restaurant?->name}.",
+                'order',
+                ['order_number' => $order->order_number, 'restaurant_id' => $order->restaurant_id]
+            );
+        }
     }
 
     public static function orderAssignedToDriver(Order $order): void

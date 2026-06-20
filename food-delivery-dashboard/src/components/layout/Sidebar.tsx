@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { Loader2, LogOut } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { LogOut } from "lucide-react";
+import { DashboardNavLink } from "@/components/layout/DashboardNavLink";
 import { navByRole } from "@/components/layout/nav-config";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,13 +14,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ className, onNavigate }: SidebarProps) {
-  const pathname = usePathname();
   const { user, logout } = useAuth();
-  const [pendingHref, setPendingHref] = useState<string | null>(null);
-
-  useEffect(() => {
-    setPendingHref(null);
-  }, [pathname]);
 
   if (!user || user.role === "customer") return null;
 
@@ -30,52 +22,40 @@ export function Sidebar({ className, onNavigate }: SidebarProps) {
   const dashboardHref = navItems[0]?.href;
 
   return (
-    <aside className={cn("flex h-full flex-col bg-sofra-gradient text-white", className)}>
-      <div className="flex items-center gap-3 border-b border-white/15 px-5 py-5">
-        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white">
-          <Image src="/logo.png" alt="Sofra" width={36} height={36} className="h-9 w-9 object-contain" unoptimized />
-        </div>
-        <div>
-          <p className="font-semibold">Sofra</p>
-          <p className="text-xs text-white/80">Operations Dashboard</p>
-        </div>
+    <aside className={cn("dashboard-sidebar", className)}>
+      <div className="px-5 py-6">
+        <Image
+          src="/logo.png"
+          alt="Sofra"
+          width={160}
+          height={160}
+          className="h-24 w-auto max-w-full object-contain sm:h-28"
+          unoptimized
+          priority
+        />
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-5">
-        {navItems.map((item) => {
-          const active =
-            pathname === item.href ||
-            (item.href !== dashboardHref && pathname.startsWith(`${item.href}/`));
-          const Icon = item.icon;
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => {
-                onNavigate?.();
-                if (pathname !== item.href) {
-                  setPendingHref(item.href);
-                }
-              }}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
-                active ? "bg-white text-sofra-green shadow" : "text-white/85 hover:bg-white/10 hover:text-white"
-              )}
-            >
-              <Icon className="h-4 w-4" />
-              <span className="flex-1">{item.label}</span>
-              {pendingHref === item.href ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 space-y-1 px-3 pb-5">
+        {navItems.map((item) => (
+          <DashboardNavLink
+            key={item.href}
+            href={item.href}
+            label={item.label}
+            icon={item.icon}
+            dashboardHref={dashboardHref}
+            onNavigate={onNavigate}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
+            activeClassName="bg-primary text-primary-foreground shadow-sm"
+            idleClassName="text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+          />
+        ))}
       </nav>
 
-      <div className="border-t border-white/15 p-3">
+      <div className="border-t border-sofra-border/80 p-3 dark:border-border">
         <Button
           type="button"
           variant="ghost"
-          className="w-full justify-start text-white hover:bg-white/10 hover:text-white"
+          className="w-full justify-start text-muted-foreground hover:bg-primary/5 hover:text-foreground"
           onClick={logout}
         >
           <LogOut className="mr-2 h-4 w-4" />

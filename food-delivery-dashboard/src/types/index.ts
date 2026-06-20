@@ -204,11 +204,13 @@ export interface DriverLocation {
 }
 
 export interface Notification {
-  id: string;
+  id: number;
   type: string;
   title?: string;
-  message: string;
+  body?: string;
+  message?: string;
   data?: Record<string, unknown>;
+  is_read?: boolean;
   read_at?: string | null;
   created_at: string;
 }
@@ -232,7 +234,8 @@ export interface RestaurantDashboard {
   pending_orders_count: number;
   average_rating: number;
   recent_orders: Order[];
-  restaurant: Restaurant;
+  restaurant: Restaurant | null;
+  needs_setup?: boolean;
 }
 
 export interface DriverDashboard {
