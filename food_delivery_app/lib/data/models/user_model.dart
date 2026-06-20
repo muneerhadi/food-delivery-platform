@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import '../../core/utils/media_url.dart';
-
 class UserModel {
   final int id;
   final String name;
@@ -28,7 +26,7 @@ class UserModel {
       email: json['email'] as String? ?? '',
       phone: json['phone'] as String?,
       role: json['role'] as String? ?? 'customer',
-      avatar: MediaUrl.resolve(json['avatar'] as String?),
+      avatar: json['avatar'] as String?,
       isActive: json['is_active'] as bool? ?? true,
     );
   }

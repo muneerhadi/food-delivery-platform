@@ -15,7 +15,12 @@ class MediaUrl
         }
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
+            $parsedPath = parse_url($path, PHP_URL_PATH);
+            if ($parsedPath === null || ! str_contains($parsedPath, '/storage/')) {
+                return $path;
+            }
+
+            $path = $parsedPath;
         }
 
         $normalized = ltrim($path, '/');
@@ -24,7 +29,21 @@ class MediaUrl
             $normalized = substr($normalized, strlen('storage/'));
         }
 
-        return static::baseUrl($request).'/storage/'.$normalized;
+        return $normalized === '' ? null : $normalized;
+    }
+
+    public static function absolute(?string $path, ?Request $request = null): ?string
+    {
+        $relative = static::public($path, $request);
+        if ($relative === null) {
+            return null;
+        }
+
+        if (str_starts_with($relative, 'http://') || str_starts_with($relative, 'https://')) {
+            return $relative;
+        }
+
+        return static::baseUrl($request).'/storage/'.$relative;
     }
 
     public static function baseUrl(?Request $request = null): string

@@ -68,10 +68,8 @@ class DioClient {
     }
 
     final currentHost = DevHost.host;
-    final fallbackHosts = <String>[
-      DevHost.usbHost,
-      DevHost.phoneHost,
-    ].where((host) => host != currentHost).toList();
+    final fallbackHosts =
+        DevHost.fallbackHosts.where((host) => host != currentHost).toList();
 
     if (fallbackHosts.isEmpty) return null;
 

@@ -1,4 +1,3 @@
-import '../../core/utils/media_url.dart';
 import 'menu_item_model.dart';
 
 class CategoryModel {
@@ -22,7 +21,7 @@ class CategoryModel {
     return CategoryModel(
       id: json['id'] as int,
       name: json['name'] as String? ?? '',
-      image: MediaUrl.resolve(json['image'] as String?),
+      image: json['image'] as String?,
       sortOrder: json['sort_order'] as int? ?? 0,
       isActive: json['is_active'] as bool? ?? true,
       menuItems: (json['menu_items'] as List<dynamic>? ?? [])

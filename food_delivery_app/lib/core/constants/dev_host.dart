@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 
 import '../services/storage_service.dart';
@@ -11,6 +13,9 @@ class DevHost {
   /// PC LAN IP — use when phone and PC are on the same Wi‑Fi.
   static const String phoneHost = '172.16.230.1';
 
+  /// Android emulator alias for the host machine.
+  static const String emulatorHost = '10.0.2.2';
+
   /// Use with `adb reverse tcp:8000 tcp:8000` when the phone is on USB.
   static const String usbHost = '127.0.0.1';
 
@@ -18,6 +23,15 @@ class DevHost {
   static const int reverbPort = 8080;
 
   static String? _overrideHost;
+
+  static List<String> get fallbackHosts {
+    final hosts = <String>[
+      if (!kIsWeb && Platform.isAndroid) emulatorHost,
+      usbHost,
+      phoneHost,
+    ];
+    return hosts.toSet().toList(growable: false);
+  }
 
   static Future<void> load() async {
     final saved = await StorageService.instance.getApiHost();

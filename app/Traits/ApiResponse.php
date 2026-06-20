@@ -3,13 +3,14 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 trait ApiResponse
 {
     protected function successResponse(mixed $data = null, string $message = 'Success', int $code = 200): JsonResponse
     {
-        if ($data instanceof JsonResource) {
+        if ($data instanceof JsonResource || $data instanceof AnonymousResourceCollection) {
             $data = $data->resolve(request());
         }
 

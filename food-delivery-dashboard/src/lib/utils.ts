@@ -24,9 +24,21 @@ export function formatDate(value?: string | null, fallback = "-") {
 
 export function resolveMediaUrl(path?: string | null): string | null {
   if (!path) return null;
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
 
   const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace(/\/api\/?$/, "");
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    try {
+      const url = new URL(path);
+      if (!url.pathname.includes("/storage/")) {
+        return path;
+      }
+      path = url.pathname;
+    } catch {
+      return null;
+    }
+  }
+
   const normalized = path.replace(/^\/+/, "");
 
   if (normalized.startsWith("storage/")) {

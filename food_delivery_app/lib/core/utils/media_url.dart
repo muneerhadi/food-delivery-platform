@@ -7,7 +7,19 @@ class MediaUrl {
       return null;
     }
 
-    final storagePath = _extractStoragePath(path.trim());
+    final trimmed = path.trim();
+
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      final uri = Uri.tryParse(trimmed);
+      if (uri == null) {
+        return null;
+      }
+      if (!uri.path.contains('/storage/')) {
+        return trimmed;
+      }
+    }
+
+    final storagePath = _extractStoragePath(trimmed);
     if (storagePath == null || storagePath.isEmpty) {
       return null;
     }
