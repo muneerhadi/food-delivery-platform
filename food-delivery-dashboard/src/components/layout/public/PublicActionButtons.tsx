@@ -10,7 +10,14 @@ type PublicRouteButtonProps = Omit<ButtonProps, "onClick"> & {
   href: string;
 };
 
-export function PublicRouteButton({ href, children, className, disabled, ...props }: PublicRouteButtonProps) {
+export function PublicRouteButton({
+  href,
+  children,
+  className,
+  disabled,
+  onClick,
+  ...props
+}: PublicRouteButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -18,8 +25,9 @@ export function PublicRouteButton({ href, children, className, disabled, ...prop
     <Button
       className={cn("gap-2", className)}
       disabled={disabled || loading}
-      onClick={() => {
+      onClick={(event) => {
         setLoading(true);
+        onClick?.(event);
         router.push(href);
       }}
       {...props}
@@ -85,9 +93,10 @@ type PublicNavLinkProps = {
   href: string;
   children: React.ReactNode;
   className?: string;
+  onNavigate?: () => void;
 };
 
-export function PublicNavLink({ href, children, className }: PublicNavLinkProps) {
+export function PublicNavLink({ href, children, className, onNavigate }: PublicNavLinkProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -111,9 +120,11 @@ export function PublicNavLink({ href, children, className }: PublicNavLinkProps)
             router.push(href);
           }
           window.setTimeout(() => setLoading(false), 500);
+          onNavigate?.();
           return;
         }
         router.push(href);
+        onNavigate?.();
       }}
     >
       {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}

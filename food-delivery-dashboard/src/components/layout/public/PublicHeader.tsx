@@ -79,7 +79,7 @@ export function PublicHeader() {
                     key={link.href}
                     href={link.href}
                     className="rounded-xl px-3 py-3 text-left text-base font-medium text-foreground hover:bg-sofra-softGreen/60"
-                    onClick={() => setMobileOpen(false)}
+                    onNavigate={() => setMobileOpen(false)}
                   >
                     {link.label}
                   </PublicNavLink>
@@ -89,7 +89,6 @@ export function PublicHeader() {
                 <PublicRouteButton
                   href={siteConfig.dashboardLoginPath}
                   className="public-btn-premium w-full"
-                  onClick={() => setMobileOpen(false)}
                 >
                   Partner login
                 </PublicRouteButton>
