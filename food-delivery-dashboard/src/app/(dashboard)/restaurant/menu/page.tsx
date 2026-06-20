@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { restaurantApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
 import { formatCurrency } from "@/lib/utils";
-import type { Category, MenuItem } from "@/types";
+import type { Category } from "@/types";
 
 interface MenuItemForm {
   id?: number;
@@ -220,7 +220,7 @@ export default function RestaurantMenuPage() {
                         }}
                         disabled={index === 0}
                       >
-                        ↑
+                        Up
                       </Button>
                       <Button
                         type="button"
@@ -233,7 +233,7 @@ export default function RestaurantMenuPage() {
                         }}
                         disabled={index === categories.length - 1}
                       >
-                        ↓
+                        Down
                       </Button>
                       <Button
                         type="button"

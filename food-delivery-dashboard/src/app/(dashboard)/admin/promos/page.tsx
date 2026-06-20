@@ -92,7 +92,7 @@ export default function AdminPromosPage() {
       { key: "type", title: "Type", render: (promo) => promo.type },
       { key: "value", title: "Value", render: (promo) => promo.value },
       { key: "min_order", title: "Min Order", render: (promo) => promo.min_order_amount ?? "-" },
-      { key: "uses", title: "Uses", render: (promo) => `${promo.used_count ?? 0} / ${promo.usage_limit ?? "∞"}` },
+      { key: "uses", title: "Uses", render: (promo) => `${promo.used_count ?? 0} / ${promo.usage_limit ?? "unlimited"}` },
       { key: "expiry", title: "Expiry", render: (promo) => formatDate(promo.expires_at) },
       { key: "status", title: "Status", render: (promo) => <StatusBadge value={promo.is_active ? "active" : "inactive"} type="active" /> },
       {

@@ -10,8 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { adminApi } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
+import type { Restaurant, User } from "@/types";
 
 type Period = "week" | "month" | "year";
+type TopRestaurantRow = { restaurant: Restaurant; orders_count: number; revenue: number };
+type TopDriverRow = { driver: User; deliveries_count: number };
 
 export default function AdminAnalyticsPage() {
   const [period, setPeriod] = useState<Period>("week");
@@ -36,13 +39,13 @@ export default function AdminAnalyticsPage() {
     queryFn: async () => (await adminApi.analyticsTopDrivers()).data.data,
   });
 
-  const topRestaurantColumns: Array<DataTableColumn<(typeof topRestaurants)[number]>> = [
+  const topRestaurantColumns: Array<DataTableColumn<TopRestaurantRow>> = [
     { key: "restaurant", title: "Restaurant", render: (row) => row.restaurant.name },
     { key: "orders", title: "Orders", render: (row) => row.orders_count },
     { key: "revenue", title: "Revenue", render: (row) => formatCurrency(row.revenue) },
   ];
 
-  const topDriversColumns: Array<DataTableColumn<(typeof topDrivers)[number]>> = [
+  const topDriversColumns: Array<DataTableColumn<TopDriverRow>> = [
     { key: "driver", title: "Driver", render: (row) => row.driver.name },
     { key: "deliveries", title: "Deliveries", render: (row) => row.deliveries_count },
   ];

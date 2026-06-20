@@ -18,6 +18,8 @@ import { useToast } from "@/hooks/useToast";
 import { formatCurrency } from "@/lib/utils";
 import type { Restaurant } from "@/types";
 
+const debugRunId = `admin-restaurants-${Date.now()}`;
+
 export default function AdminRestaurantsPage() {
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -32,15 +34,87 @@ export default function AdminRestaurantsPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-restaurants", page, search, approvedFilter, activeFilter],
-    queryFn: async () =>
-      (
-        await adminApi.restaurants({
+    queryFn: async () => {
+      const params = {
           page,
           search: search || undefined,
           is_approved: approvedFilter === "all" ? undefined : approvedFilter === "approved",
           is_active: activeFilter === "all" ? undefined : activeFilter === "active",
-        })
-      ).data.data,
+      };
+      // #region agent log
+      fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+        body: JSON.stringify({
+          sessionId: "7cdf32",
+          runId: debugRunId,
+          hypothesisId: "H2_H4",
+          location: "src/app/(dashboard)/admin/restaurants/page.tsx:37",
+          message: "restaurants query request params",
+          data: {
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api",
+            params,
+          },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+
+      try {
+        const response = await adminApi.restaurants(params);
+        const payload = response.data?.data as Record<string, unknown> | undefined;
+        const items = payload?.items as unknown;
+        // #region agent log
+        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+          body: JSON.stringify({
+            sessionId: "7cdf32",
+            runId: debugRunId,
+            hypothesisId: "H1_H5",
+            location: "src/app/(dashboard)/admin/restaurants/page.tsx:64",
+            message: "restaurants query response payload shape",
+            data: {
+              httpStatus: response.status,
+              payloadKeys: payload ? Object.keys(payload) : [],
+              itemsIsArray: Array.isArray(items),
+              itemsKeys:
+                items && typeof items === "object"
+                  ? Object.keys(items as Record<string, unknown>).slice(0, 10)
+                  : [],
+              itemsDataLength: Array.isArray((items as { data?: unknown[] } | undefined)?.data)
+                ? ((items as { data?: unknown[] }).data?.length ?? 0)
+                : null,
+              pagination: payload?.pagination ?? null,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+        return response.data.data;
+      } catch (error) {
+        const e = error as { response?: { status?: number; data?: { message?: string } }; message?: string };
+        // #region agent log
+        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+          body: JSON.stringify({
+            sessionId: "7cdf32",
+            runId: debugRunId,
+            hypothesisId: "H3_H4",
+            location: "src/app/(dashboard)/admin/restaurants/page.tsx:95",
+            message: "restaurants query failed",
+            data: {
+              status: e.response?.status ?? null,
+              message: e.response?.data?.message ?? e.message ?? "unknown",
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+        throw error;
+      }
+    },
   });
 
   const reload = () => queryClient.invalidateQueries({ queryKey: ["admin-restaurants"] });
@@ -75,7 +149,7 @@ export default function AdminRestaurantsPage() {
     onError: (error) => toast.error(extractApiError(error, "Failed to update restaurant")),
   });
 
-  const rows = data?.data ?? [];
+  const rows = data?.items ?? [];
 
   const columns: Array<DataTableColumn<Restaurant>> = useMemo(
     () => [
@@ -196,8 +270,8 @@ export default function AdminRestaurantsPage() {
         data={rows}
         loading={isLoading}
         pagination={{
-          page: data?.current_page ?? 1,
-          totalPages: data?.last_page ?? 1,
+          page: data?.pagination?.current_page ?? 1,
+          totalPages: data?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

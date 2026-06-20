@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/useToast";
 import { formatDate } from "@/lib/utils";
 import type { User, UserRole } from "@/types";
 
+const debugRunId = `admin-users-${Date.now()}`;
+
 const roleOptions: UserRole[] = ["super_admin", "restaurant_owner", "driver", "customer"];
 
 interface CreateUserForm {
@@ -44,14 +46,86 @@ export default function AdminUsersPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-users", search, role, page],
-    queryFn: async () =>
-      (
-        await adminApi.users({
+    queryFn: async () => {
+      const params = {
           page,
           search: search || undefined,
           role: role === "all" ? undefined : role,
-        })
-      ).data.data,
+      };
+      // #region agent log
+      fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+        body: JSON.stringify({
+          sessionId: "7cdf32",
+          runId: debugRunId,
+          hypothesisId: "H2_H4",
+          location: "src/app/(dashboard)/admin/users/page.tsx:50",
+          message: "users query request params",
+          data: {
+            baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api",
+            params,
+          },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+
+      try {
+        const response = await adminApi.users(params);
+        const payload = response.data?.data as Record<string, unknown> | undefined;
+        const items = payload?.items as unknown;
+        // #region agent log
+        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+          body: JSON.stringify({
+            sessionId: "7cdf32",
+            runId: debugRunId,
+            hypothesisId: "H1_H5",
+            location: "src/app/(dashboard)/admin/users/page.tsx:77",
+            message: "users query response payload shape",
+            data: {
+              httpStatus: response.status,
+              payloadKeys: payload ? Object.keys(payload) : [],
+              itemsIsArray: Array.isArray(items),
+              itemsKeys:
+                items && typeof items === "object"
+                  ? Object.keys(items as Record<string, unknown>).slice(0, 10)
+                  : [],
+              itemsDataLength: Array.isArray((items as { data?: unknown[] } | undefined)?.data)
+                ? ((items as { data?: unknown[] }).data?.length ?? 0)
+                : null,
+              pagination: payload?.pagination ?? null,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+        return response.data.data;
+      } catch (error) {
+        const e = error as { response?: { status?: number; data?: { message?: string } }; message?: string };
+        // #region agent log
+        fetch("http://127.0.0.1:7540/ingest/9ab1bba2-3be0-4dad-a0c3-aecb5617ecca", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "7cdf32" },
+          body: JSON.stringify({
+            sessionId: "7cdf32",
+            runId: debugRunId,
+            hypothesisId: "H3_H4",
+            location: "src/app/(dashboard)/admin/users/page.tsx:108",
+            message: "users query failed",
+            data: {
+              status: e.response?.status ?? null,
+              message: e.response?.data?.message ?? e.message ?? "unknown",
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+        throw error;
+      }
+    },
   });
 
   const reload = () => queryClient.invalidateQueries({ queryKey: ["admin-users"] });
@@ -76,7 +150,7 @@ export default function AdminUsersPage() {
     onError: (error) => toast.error(extractApiError(error, "Failed to update user status")),
   });
 
-  const rows = data?.data ?? [];
+  const rows = data?.items ?? [];
 
   const columns: Array<DataTableColumn<User>> = useMemo(
     () => [
@@ -150,8 +224,8 @@ export default function AdminUsersPage() {
         data={rows}
         loading={isLoading}
         pagination={{
-          page: data?.current_page ?? 1,
-          totalPages: data?.last_page ?? 1,
+          page: data?.pagination?.current_page ?? 1,
+          totalPages: data?.pagination?.last_page ?? 1,
           onPageChange: setPage,
         }}
       />

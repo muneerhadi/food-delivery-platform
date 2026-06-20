@@ -94,7 +94,7 @@ export default function RestaurantOrdersPage() {
                     </CardHeader>
                     <CardContent className="space-y-2 text-sm">
                       <p className="text-muted-foreground">
-                        {order.items.length} items • {order.customer?.name?.split(" ")[0] ?? "Customer"}
+                        {order.items.length} items - {order.customer?.name?.split(" ")[0] ?? "Customer"}
                       </p>
                       <p className="font-semibold">{formatCurrency(order.total_amount)}</p>
                       <p className="text-xs text-muted-foreground">Placed {formatDate(order.created_at)}</p>

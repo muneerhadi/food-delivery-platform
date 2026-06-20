@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { driverApi } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import type { Order } from "@/types";
 
 const activeStatuses = new Set(["confirmed", "picked_up", "on_the_way", "ready"]);
 

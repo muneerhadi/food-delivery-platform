@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { restaurantApi, extractApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
-import type { Restaurant } from "@/types";
 
 interface SettingsForm {
   name: string;
@@ -84,10 +83,10 @@ export default function RestaurantSettingsPage() {
         email: payload.email,
         opening_time: payload.opening_time,
         closing_time: payload.closing_time,
-        min_order_amount: payload.min_order_amount ? Number(payload.min_order_amount) : null,
-        delivery_fee: payload.delivery_fee ? Number(payload.delivery_fee) : null,
-        delivery_time_min: payload.delivery_time_min ? Number(payload.delivery_time_min) : null,
-        delivery_time_max: payload.delivery_time_max ? Number(payload.delivery_time_max) : null,
+        min_order_amount: payload.min_order_amount ? Number(payload.min_order_amount) : undefined,
+        delivery_fee: payload.delivery_fee ? Number(payload.delivery_fee) : undefined,
+        delivery_time_min: payload.delivery_time_min ? Number(payload.delivery_time_min) : undefined,
+        delivery_time_max: payload.delivery_time_max ? Number(payload.delivery_time_max) : undefined,
       }),
     onSuccess: () => {
       toast.success("Settings updated");

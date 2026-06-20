@@ -18,7 +18,7 @@ export function formatDate(value?: string | null, fallback = "-") {
   if (!value) return fallback;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return fallback;
-  return format(date, "MMM d, yyyy • HH:mm");
+  return format(date, "MMM d, yyyy - HH:mm");
 }
 
 export function titleFromPath(pathname: string) {

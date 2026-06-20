@@ -3,6 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "predev": "C:\\Progra~1\\nodejs\\node.exe scripts/debug-predev.cjs",
         "build": "vite build",
         "dev": "vite"
     },
