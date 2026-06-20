@@ -66,6 +66,10 @@ class LoginController extends GetxController {
                 runSpacing: 8,
                 children: [
                   ActionChip(
+                    label: Text('Emulator (${DevHost.emulatorHost})'),
+                    onPressed: () => hostController.text = DevHost.emulatorHost,
+                  ),
+                  ActionChip(
                     label: Text('USB (${DevHost.usbHost})'),
                     onPressed: () => hostController.text = DevHost.usbHost,
                   ),
