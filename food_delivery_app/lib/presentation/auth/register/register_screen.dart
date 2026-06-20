@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../app/theme/sofra_colors.dart';
 import '../../../core/constants/app_assets.dart';
+import '../../../core/constants/site_constants.dart';
 import '../../../core/utils/validators.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/sofra/sofra_brand_background.dart';
