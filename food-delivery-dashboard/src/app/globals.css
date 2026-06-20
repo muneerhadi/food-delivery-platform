@@ -103,12 +103,16 @@
   }
 
   .public-feature-card {
-    @apply group relative overflow-hidden rounded-3xl border border-sofra-border/80 bg-card/90 p-8 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_20px_40px_-20px_rgba(0,93,68,0.25)];
+    @apply relative overflow-hidden rounded-3xl border border-sofra-border/80 bg-card/90 p-8 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_20px_40px_-20px_rgba(0,93,68,0.25)];
   }
 
   .public-feature-card::before {
     content: "";
-    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity duration-300;
+  }
+
+  .public-feature-card:hover::before {
+    @apply opacity-100;
   }
 
   .public-icon-shell {
@@ -172,7 +176,11 @@
 
   .public-nav-link::after {
     content: "";
-    @apply absolute -bottom-1 left-0 h-px w-0 bg-primary transition-all duration-200 group-hover:w-full;
+    @apply absolute -bottom-1 left-0 h-px w-0 bg-primary transition-all duration-200;
+  }
+
+  .public-nav-link:hover::after {
+    @apply w-full;
   }
 
   .public-logo-frame {
