@@ -94,21 +94,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             _Dots(currentPage: _currentPage, pageCount: _pages.length),
             const SizedBox(height: 22),
-            SofraPrimaryButton(
+            SofraGlassButton(
               label: _isLastPage ? 'Get Started' : 'Next',
               onPressed: _next,
             ),
             const SizedBox(height: 8),
-            TextButton(
+            SofraGlassTextButton(
+              label: _isLastPage ? 'Sign in' : 'Skip',
               onPressed: _goToAuth,
-              child: Text(
-                _isLastPage ? 'Sign in' : 'Skip',
-                style: const TextStyle(
-                  color: SofraColors.mutedGold,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
             ),
             const SizedBox(height: 12),
           ],
