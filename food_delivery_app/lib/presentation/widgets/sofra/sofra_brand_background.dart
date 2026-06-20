@@ -153,50 +153,62 @@ class SofraGlassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: isLoading ? null : onPressed,
-            child: Container(
-              width: double.infinity,
-              height: 56,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: SofraColors.darkGreen.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.65),
-                  width: 1.2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: SofraColors.darkGreen.withValues(alpha: 0.12),
-                    blurRadius: 22,
-                    offset: const Offset(0, 10),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: SofraColors.darkGreen.withValues(alpha: 0.14),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: isLoading ? null : onPressed,
+              child: Container(
+                width: double.infinity,
+                height: 56,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withValues(alpha: 0.72),
+                      SofraColors.darkGreen.withValues(alpha: 0.22),
+                    ],
                   ),
-                ],
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    width: 1.4,
+                  ),
+                ),
+                child: isLoading
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: SofraColors.darkGreen,
+                        ),
+                      )
+                    : Text(
+                        label,
+                        style: const TextStyle(
+                          color: SofraColors.darkGreen,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
               ),
-              child: isLoading
-                  ? const SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: SofraColors.darkGreen,
-                      ),
-                    )
-                  : Text(
-                      label,
-                      style: const TextStyle(
-                        color: SofraColors.darkGreen,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
             ),
           ),
         ),
@@ -221,23 +233,33 @@ class SofraGlassTextButton extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(14),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: onPressed,
             borderRadius: BorderRadius.circular(14),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.42),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.55),
+                    Colors.white.withValues(alpha: 0.28),
+                  ],
+                ),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: SofraColors.mutedGold.withValues(alpha: 0.35),
+                  color: Colors.white.withValues(alpha: 0.75),
+                  width: 1.2,
                 ),
               ),
               child: Text(
                 label,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: SofraColors.mutedGold,
                   fontSize: 16,
