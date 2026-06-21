@@ -31,13 +31,13 @@ export function PublicHeader() {
   return (
     <header className="relative z-30 border-b border-sofra-border/40 bg-white/90 backdrop-blur-sm">
       <div className="mx-auto grid h-[4.5rem] max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 md:px-8">
-        <PublicNavLink href="/" className="group justify-self-start hover:opacity-90">
+        <PublicNavLink href="/" className="group flex self-stretch items-center justify-self-start py-2 hover:opacity-90">
           <Image
             src="/logo.png"
             alt={siteConfig.name}
-            width={40}
-            height={40}
-            className="h-10 w-auto"
+            width={180}
+            height={72}
+            className="h-full max-h-[3.5rem] w-auto object-contain md:max-h-[3.75rem]"
             unoptimized
             priority
           />
