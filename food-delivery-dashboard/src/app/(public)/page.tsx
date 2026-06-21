@@ -1,31 +1,25 @@
 "use client";
 
-import { Apple, ArrowUpRight, Play, Truck, UtensilsCrossed, MapPin } from "lucide-react";
+import {
+  Apple,
+  ArrowUpRight,
+  BadgePercent,
+  Clock3,
+  MapPin,
+  Play,
+  Store,
+} from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { whyChooseFeatures } from "@/lib/public-sections";
 import { PublicHeroCarousel } from "@/components/layout/public/PublicHeroCarousel";
+import { PublicImageCollage } from "@/components/layout/public/PublicImageCollage";
 import {
   PublicExternalButton,
   PublicHashButton,
   PublicNavLink,
 } from "@/components/layout/public/PublicActionButtons";
 
-const features = [
-  {
-    icon: UtensilsCrossed,
-    title: "Curated restaurants",
-    description: "Discover kitchens and restaurants near you with menus that fit your taste.",
-  },
-  {
-    icon: MapPin,
-    title: "Live order tracking",
-    description: "Follow every step from preparation to delivery at your door.",
-  },
-  {
-    icon: Truck,
-    title: "Fast local delivery",
-    description: "Reliable drivers and clear ETAs so dinner arrives when you need it.",
-  },
-];
+const featureIcons = [Store, MapPin, BadgePercent, Clock3];
 
 export default function PublicHomePage() {
   return (
@@ -58,69 +52,99 @@ export default function PublicHomePage() {
         <PublicHeroCarousel />
       </section>
 
-      <section id="features" className="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-24">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Why choose us</p>
-          <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight md:text-4xl">Why {siteConfig.name}?</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Everything you need for stress-free food delivery — thoughtfully designed from order to doorstep.
-          </p>
-        </div>
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-16 md:px-6 md:py-20">
+        <section id="download" className="public-panel">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+            <div className="space-y-6">
+              <p className="public-section-label">Get started</p>
+              <h2 className="max-w-lg font-serif text-3xl font-bold leading-tight tracking-tight text-sofra-text md:text-4xl lg:text-[2.65rem]">
+                Ready to enjoy your next meal,{" "}
+                <span className="bg-gradient-to-r from-sofra-gold to-sofra-mutedGold bg-clip-text italic text-transparent">
+                  delivered with care?
+                </span>
+              </h2>
+              <p className="max-w-md text-base leading-relaxed text-sofra-textMuted md:text-lg">
+                Browse trusted restaurants near you, place an order in seconds, and track every step until your meal
+                arrives at your door.
+              </p>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {features.map((feature) => (
-            <div key={feature.title} className="public-feature-card">
-              <div className="public-icon-shell">
-                <feature.icon className="h-6 w-6" />
+              <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:flex-wrap sm:items-center">
+                <PublicHashButton
+                  targetId="download"
+                  size="lg"
+                  className="public-hero-cta public-cta-pill h-14 rounded-full px-6 text-base"
+                >
+                  Download the app
+                  <span className="public-cta-pill-icon">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </PublicHashButton>
               </div>
-              <h3 className="mt-6 text-lg font-semibold tracking-tight">{feature.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      <section id="download" className="mx-auto max-w-6xl px-4 pb-24 md:px-6 md:pb-32">
-        <div className="public-cta-card text-center">
-          <div className="relative z-10">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Get started</p>
-            <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight md:text-4xl">
-              Get the {siteConfig.name} app
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+                <PublicExternalButton href={siteConfig.appStoreUrl} size="lg" className="public-btn-premium h-11 min-w-[180px]">
+                  <Apple className="h-5 w-5" />
+                  App Store
+                </PublicExternalButton>
+                <PublicExternalButton
+                  href={siteConfig.playStoreUrl}
+                  size="lg"
+                  variant="outline"
+                  className="public-btn-outline-premium h-11 min-w-[180px]"
+                >
+                  <Play className="h-5 w-5" />
+                  Google Play
+                </PublicExternalButton>
+              </div>
+            </div>
+
+            <PublicImageCollage />
+          </div>
+        </section>
+
+        <section id="features" className="public-panel">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="public-section-label">Why choose us</p>
+            <h2 className="mt-4 font-serif text-3xl font-bold leading-tight tracking-tight text-sofra-text md:text-4xl lg:text-[2.65rem]">
+              We deliver with purpose,{" "}
+              <span className="bg-gradient-to-r from-sofra-gold to-sofra-mutedGold bg-clip-text italic text-transparent">
+                speed, and care.
+              </span>
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
-              Order on your phone. Available for iOS and Android — download links below.
-            </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <PublicExternalButton href={siteConfig.appStoreUrl} size="lg" className="public-btn-premium h-12 min-w-[220px]">
-                <Apple className="h-5 w-5" />
-                App Store
-              </PublicExternalButton>
-              <PublicExternalButton
-                href={siteConfig.playStoreUrl}
-                size="lg"
-                variant="outline"
-                className="public-btn-outline-premium h-12 min-w-[220px]"
-              >
-                <Play className="h-5 w-5" />
-                Google Play
-              </PublicExternalButton>
-            </div>
-
-            <p className="mt-8 text-xs text-muted-foreground">
-              By using {siteConfig.name} you agree to our{" "}
-              <PublicNavLink href="/terms" className="font-medium text-sofra-green hover:text-sofra-emerald">
-                Terms
-              </PublicNavLink>{" "}
-              and{" "}
-              <PublicNavLink href="/privacy" className="font-medium text-sofra-green hover:text-sofra-emerald">
-                Privacy Policy
-              </PublicNavLink>
-              .
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-sofra-textMuted md:text-lg">
+              {siteConfig.name} brings together great local food, live tracking, and reliable delivery — so every order
+              feels simple from start to finish.
             </p>
           </div>
-        </div>
-      </section>
+
+          <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            {whyChooseFeatures.map((feature, index) => {
+              const Icon = featureIcons[index];
+              return (
+                <div key={feature.title} className="public-benefit-item text-center lg:text-left">
+                  <div className="public-benefit-icon mx-auto lg:mx-0">
+                    <Icon className="h-5 w-5 text-sofra-green" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight text-sofra-text">{feature.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-sofra-textMuted">{feature.description}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="mt-12 text-center text-xs text-sofra-textMuted">
+            By using {siteConfig.name} you agree to our{" "}
+            <PublicNavLink href="/terms" className="font-medium text-sofra-green hover:text-sofra-emerald">
+              Terms
+            </PublicNavLink>{" "}
+            and{" "}
+            <PublicNavLink href="/privacy" className="font-medium text-sofra-green hover:text-sofra-emerald">
+              Privacy Policy
+            </PublicNavLink>
+            .
+          </p>
+        </section>
+      </div>
     </div>
   );
 }

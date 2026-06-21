@@ -17,7 +17,7 @@ export function PublicImageCollage() {
         <p className="public-collage-overlay-title">Fresh today</p>
       </div>
 
-      <div className="public-collage-side">
+      <div className="public-collage-side hidden sm:flex">
         <div className="public-collage-side-card public-collage-side-card--tall">
           <Image
             src={showcaseImages.sideTop.src}
@@ -40,7 +40,7 @@ export function PublicImageCollage() {
         </div>
       </div>
 
-      <div className="public-collage-thumbs">
+      <div className="public-collage-thumbs hidden sm:grid">
         {showcaseImages.thumbs.map((image, index) => (
           <div key={`${image.src}-${index}`} className="public-collage-thumb">
             <Image

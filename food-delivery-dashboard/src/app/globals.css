@@ -150,6 +150,66 @@
     @apply transition-transform duration-300 hover:-translate-y-1;
   }
 
+  .public-panel {
+    @apply rounded-[1.75rem] border border-sofra-border/50 bg-white p-8 shadow-[0_20px_60px_-24px_rgba(17,59,49,0.12)] md:p-12 lg:p-14;
+  }
+
+  .public-section-label {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-sofra-mutedGold;
+  }
+
+  .public-cta-pill {
+    @apply justify-between pl-7 pr-2;
+  }
+
+  .public-cta-pill-icon {
+    @apply ml-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white;
+  }
+
+  .public-collage {
+    @apply grid gap-3 sm:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)];
+  }
+
+  .public-collage-main {
+    @apply relative min-h-[16rem] overflow-hidden rounded-[1.35rem] sm:row-span-2 md:min-h-[22rem];
+  }
+
+  .public-collage-badge {
+    @apply absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-sofra-text shadow-sm backdrop-blur-sm;
+  }
+
+  .public-collage-overlay-title {
+    @apply absolute bottom-6 left-6 font-serif text-4xl font-bold leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] md:text-5xl;
+  }
+
+  .public-collage-side {
+    @apply flex flex-col gap-3;
+  }
+
+  .public-collage-side-card {
+    @apply overflow-hidden rounded-[1.1rem];
+  }
+
+  .public-collage-side-card--tall {
+    @apply min-h-[11rem] flex-1 md:min-h-[13rem];
+  }
+
+  .public-collage-thumbs {
+    @apply col-span-2 grid grid-cols-4 gap-3;
+  }
+
+  .public-collage-thumb {
+    @apply h-16 overflow-hidden rounded-xl opacity-80 blur-[0.3px] md:h-20;
+  }
+
+  .public-benefit-icon {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#f7efe4];
+  }
+
+  .public-benefit-item {
+    @apply px-2;
+  }
+
   .public-mesh-bg {
     background-color: hsl(var(--background));
     background-image:
