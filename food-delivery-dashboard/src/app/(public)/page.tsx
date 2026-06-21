@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { Apple, Play, Sparkles, Truck, UtensilsCrossed, MapPin, Clock3, ShieldCheck } from "lucide-react";
+import { Apple, ArrowUpRight, Play, Truck, UtensilsCrossed, MapPin } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { PublicHeroCarousel } from "@/components/layout/public/PublicHeroCarousel";
 import {
   PublicExternalButton,
   PublicHashButton,
@@ -28,93 +28,51 @@ const features = [
   },
 ];
 
-const highlights = [
-  { icon: Clock3, label: "Real-time updates" },
-  { icon: ShieldCheck, label: "Trusted local partners" },
-  { icon: Sparkles, label: "Wholesome choices" },
-];
-
 export default function PublicHomePage() {
   return (
-    <div className="public-mesh-bg overflow-hidden">
+    <div className="overflow-hidden bg-white">
       <section className="relative">
-        <div className="public-orb -left-24 top-8 h-72 w-72 bg-primary/15" aria-hidden />
-        <div className="public-orb -right-16 top-32 h-80 w-80 bg-sofra-gold/10" aria-hidden />
-        <div className="public-orb bottom-0 left-1/3 h-64 w-64 bg-sofra-emerald/10" aria-hidden />
+        <div className="mx-auto max-w-4xl px-4 pt-16 text-center md:px-6 md:pt-24 lg:pt-28">
+          <h1 className="font-serif text-[2.35rem] font-bold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.75rem]">
+            Healthy meals,{" "}
+            <span className="italic text-sofra-mutedGold">delivered with care</span>
+          </h1>
 
-        <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-6 md:pb-28 md:pt-24">
-          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-            <div className="space-y-8">
-              <div className="public-stat-pill">
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-                Food delivery, refined
-              </div>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            {siteConfig.description}
+          </p>
 
-              <div className="space-y-5">
-                <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-[3.25rem] lg:leading-[1.08]">
-                  {siteConfig.tagline}
-                </h1>
-                <p className="max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  {siteConfig.description}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <PublicHashButton targetId="download" size="lg" className="public-btn-premium h-12 px-8">
-                  Download the app
-                </PublicHashButton>
-                <PublicRouteButton
-                  href={siteConfig.dashboardLoginPath}
-                  size="lg"
-                  variant="outline"
-                  className="public-btn-outline-premium h-12 px-8"
-                >
-                  Restaurant & driver login
-                </PublicRouteButton>
-              </div>
-
-              <div className="flex flex-wrap gap-3 pt-2">
-                {highlights.map((item) => (
-                  <span
-                    key={item.label}
-                    className="inline-flex items-center gap-2 rounded-full border border-sofra-border/70 bg-white/60 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm"
-                  >
-                    <item.icon className="h-3.5 w-3.5 text-primary" />
-                    {item.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-center lg:justify-end">
-              <div className="public-logo-frame relative w-full max-w-md">
-                <div className="relative z-10 flex flex-col items-center">
-                  <Image
-                    src="/logo.png"
-                    alt={siteConfig.name}
-                    width={320}
-                    height={320}
-                    className="mx-auto h-52 w-auto object-contain md:h-64"
-                    unoptimized
-                    priority
-                  />
-                  <div className="mt-6 w-full rounded-2xl border border-sofra-border/60 bg-white/70 p-4 text-center shadow-sm backdrop-blur-sm">
-                    <p className="text-sm font-semibold text-foreground">Your table, delivered</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      Order in seconds. Track every mile.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="mt-10 flex justify-center">
+            <PublicHashButton
+              targetId="download"
+              size="lg"
+              className="public-hero-cta h-14 rounded-full bg-foreground px-8 text-base text-background shadow-[0_16px_40px_-12px_rgba(17,59,49,0.45)] hover:bg-foreground/90"
+            >
+              Download the app
+              <ArrowUpRight className="h-5 w-5" />
+            </PublicHashButton>
           </div>
+
+          <p className="mt-5 text-sm text-muted-foreground">
+            Restaurants and drivers can{" "}
+            <PublicRouteButton
+              href={siteConfig.dashboardLoginPath}
+              variant="link"
+              className="h-auto p-0 font-medium text-foreground underline-offset-4"
+            >
+              sign in here
+            </PublicRouteButton>
+            .
+          </p>
         </div>
+
+        <PublicHeroCarousel />
       </section>
 
       <section id="features" className="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-24">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Why choose us</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Why {siteConfig.name}?</h2>
+          <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight md:text-4xl">Why {siteConfig.name}?</h2>
           <p className="mt-4 text-lg text-muted-foreground">
             Everything you need for stress-free food delivery — thoughtfully designed from order to doorstep.
           </p>
@@ -137,7 +95,7 @@ export default function PublicHomePage() {
         <div className="public-cta-card text-center">
           <div className="relative z-10">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Get started</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
+            <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight md:text-4xl">
               Get the {siteConfig.name} app
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">

@@ -40,9 +40,10 @@ export function PublicRouteButton({
 
 type PublicHashButtonProps = Omit<ButtonProps, "onClick"> & {
   targetId: string;
+  onAction?: () => void;
 };
 
-export function PublicHashButton({ targetId, children, className, disabled, ...props }: PublicHashButtonProps) {
+export function PublicHashButton({ targetId, children, className, disabled, onAction, ...props }: PublicHashButtonProps) {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -55,6 +56,7 @@ export function PublicHashButton({ targetId, children, className, disabled, ...p
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+        onAction?.();
         window.setTimeout(() => setLoading(false), 500);
       }}
       {...props}

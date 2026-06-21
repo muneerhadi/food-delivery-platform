@@ -82,6 +82,30 @@
     @apply text-foreground;
   }
 
+  .public-site-frame {
+    background: linear-gradient(180deg, #f3ddd3 0%, #edd5c8 100%);
+  }
+
+  .public-hero-cta {
+    @apply gap-2 font-medium transition-all duration-200;
+  }
+
+  .public-hero-carousel {
+    @apply overflow-hidden;
+  }
+
+  .public-hero-carousel-track {
+    @apply min-w-max;
+  }
+
+  .public-hero-carousel-fade {
+    background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .public-hero-carousel-card {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
   .public-mesh-bg {
     background-color: hsl(var(--background));
     background-image:
