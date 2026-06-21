@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  Apple,
   ArrowUpRight,
   BadgePercent,
   Clock3,
   MapPin,
-  Play,
   Store,
 } from "lucide-react";
+import { AppStoreIcon } from "@/components/icons/AppStoreIcon";
+import { GooglePlayIcon } from "@/components/icons/GooglePlayIcon";
 import { siteConfig } from "@/lib/site-config";
 import { whyChooseFeatures } from "@/lib/public-sections";
 import { PublicHeroCarousel } from "@/components/layout/public/PublicHeroCarousel";
@@ -83,7 +83,7 @@ export default function PublicHomePage() {
 
               <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                 <PublicExternalButton href={siteConfig.appStoreUrl} size="lg" className="public-btn-premium h-11 min-w-[180px]">
-                  <Apple className="h-5 w-5" />
+                  <AppStoreIcon />
                   App Store
                 </PublicExternalButton>
                 <PublicExternalButton
@@ -92,7 +92,7 @@ export default function PublicHomePage() {
                   variant="outline"
                   className="public-btn-outline-premium h-11 min-w-[180px]"
                 >
-                  <Play className="h-5 w-5" />
+                  <GooglePlayIcon />
                   Google Play
                 </PublicExternalButton>
               </div>
