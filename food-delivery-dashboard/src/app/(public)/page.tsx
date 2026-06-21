@@ -7,7 +7,6 @@ import {
   PublicExternalButton,
   PublicHashButton,
   PublicNavLink,
-  PublicRouteButton,
 } from "@/components/layout/public/PublicActionButtons";
 
 const features = [
@@ -55,13 +54,9 @@ export default function PublicHomePage() {
 
           <p className="mt-5 text-sm text-muted-foreground">
             Restaurants and drivers can{" "}
-            <PublicRouteButton
-              href={siteConfig.dashboardLoginPath}
-              variant="link"
-              className="h-auto p-0 font-medium text-foreground underline-offset-4"
-            >
+            <PublicNavLink href={siteConfig.dashboardLoginPath} className="font-medium text-foreground hover:text-foreground">
               sign in here
-            </PublicRouteButton>
+            </PublicNavLink>
             .
           </p>
         </div>
