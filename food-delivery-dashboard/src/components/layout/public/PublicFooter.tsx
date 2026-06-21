@@ -15,7 +15,7 @@ const footerLinks = {
     { href: "/privacy", label: "Privacy policy" },
     { href: "/terms", label: "Terms of service" },
   ],
-  partners: [{ href: siteConfig.dashboardLoginPath, label: "Open dashboard" }],
+  partners: [{ href: siteConfig.dashboardLoginPath, label: "Login" }],
 };
 
 export function PublicFooter() {

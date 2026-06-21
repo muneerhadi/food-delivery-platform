@@ -67,7 +67,7 @@ export function PublicHeader() {
             variant="outline"
             className="public-btn-outline-premium hidden h-10 rounded-full px-4 md:inline-flex"
           >
-            Open dashboard
+            Login
           </PublicRouteButton>
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -106,7 +106,7 @@ export function PublicHeader() {
                   variant="outline"
                   className="public-btn-outline-premium w-full rounded-full"
                 >
-                  Open dashboard
+                  Login
                 </PublicRouteButton>
               </div>
             </SheetContent>

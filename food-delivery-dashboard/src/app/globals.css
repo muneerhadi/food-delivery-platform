@@ -195,7 +195,7 @@
   }
 
   .public-collage-thumbs {
-    @apply col-span-2 grid grid-cols-4 gap-3;
+    @apply gap-3 sm:col-span-2 sm:grid-cols-4;
   }
 
   .public-collage-thumb {
