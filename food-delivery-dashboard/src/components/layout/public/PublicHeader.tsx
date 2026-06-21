@@ -31,20 +31,16 @@ export function PublicHeader() {
   return (
     <header className="relative z-30 border-b border-sofra-border/40 bg-white/90 backdrop-blur-sm">
       <div className="mx-auto grid h-[4.5rem] max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 md:px-8">
-        <PublicNavLink href="/" className="group justify-self-start font-semibold text-foreground hover:text-foreground">
-          <span className="flex items-center gap-2.5">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-sofra-softGreen/80">
-              <Image
-                src="/logo.png"
-                alt={siteConfig.name}
-                width={28}
-                height={28}
-                className="h-7 w-auto"
-                unoptimized
-              />
-            </span>
-            <span className="font-serif text-lg tracking-tight">{siteConfig.name}</span>
-          </span>
+        <PublicNavLink href="/" className="group justify-self-start hover:opacity-90">
+          <Image
+            src="/logo.png"
+            alt={siteConfig.name}
+            width={40}
+            height={40}
+            className="h-10 w-auto"
+            unoptimized
+            priority
+          />
         </PublicNavLink>
 
         <nav className="hidden items-center justify-center gap-8 lg:flex">
