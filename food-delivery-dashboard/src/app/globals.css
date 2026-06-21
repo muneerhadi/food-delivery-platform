@@ -140,17 +140,19 @@
 
   .public-hero-marquee-track {
     will-change: transform;
+    backface-visibility: hidden;
   }
 
   .public-hero-marquee-ltr {
-    animation: public-hero-scroll-ltr 42s linear infinite;
+    animation: public-hero-scroll-ltr 22s linear infinite;
   }
 
   .public-hero-marquee-rtl {
-    animation: public-hero-scroll-rtl 38s linear infinite;
+    animation: public-hero-scroll-rtl 20s linear infinite;
   }
 
-  .public-hero-marquee:hover .public-hero-marquee-track {
+  .public-hero-marquee:hover .public-hero-marquee-ltr,
+  .public-hero-marquee:hover .public-hero-marquee-rtl {
     animation-play-state: paused;
   }
 
@@ -188,7 +190,7 @@
   }
 
   .public-hero-carousel-card {
-    @apply transition-transform duration-300 hover:-translate-y-1;
+    @apply leading-none;
   }
 
   .public-panel {

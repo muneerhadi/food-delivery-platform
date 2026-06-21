@@ -9,10 +9,10 @@ import {
 import { cn } from "@/lib/utils";
 
 const heightMap = {
-  sm: "h-40 md:h-48",
-  md: "h-48 md:h-56",
-  lg: "h-52 md:h-64",
-  xl: "h-56 md:h-[18rem]",
+  sm: "h-full",
+  md: "h-full",
+  lg: "h-full",
+  xl: "h-full",
 } as const;
 
 const widthMap = {
@@ -31,10 +31,10 @@ function HeroMarqueeRow({ images, direction, className }: HeroMarqueeRowProps) {
   const loop = [...images, ...images];
 
   return (
-    <div className={cn("public-hero-marquee overflow-hidden", className)}>
+    <div className={cn("public-hero-marquee h-44 overflow-hidden md:h-52", className)}>
       <div
         className={cn(
-          "public-hero-marquee-track flex w-max items-end gap-3 md:gap-4",
+          "public-hero-marquee-track flex w-max items-stretch gap-0",
           direction === "left-to-right" ? "public-hero-marquee-ltr" : "public-hero-marquee-rtl"
         )}
       >
@@ -42,10 +42,9 @@ function HeroMarqueeRow({ images, direction, className }: HeroMarqueeRowProps) {
           <div
             key={`${image.src}-${index}`}
             className={cn(
-              "public-hero-carousel-card shrink-0 overflow-hidden rounded-[1.35rem] shadow-[0_12px_40px_-16px_rgba(17,59,49,0.35)] ring-1 ring-black/5",
+              "public-hero-carousel-card shrink-0 overflow-hidden",
               heightMap[image.height],
-              widthMap[image.width],
-              index % 2 === 0 ? "md:translate-y-2" : "md:-translate-y-1"
+              widthMap[image.width]
             )}
           >
             <Image
@@ -55,6 +54,7 @@ function HeroMarqueeRow({ images, direction, className }: HeroMarqueeRowProps) {
               height={560}
               className="h-full w-full object-cover"
               unoptimized
+              draggable={false}
             />
           </div>
         ))}
@@ -67,7 +67,7 @@ export function PublicHeroCarousel() {
   return (
     <div className="public-hero-carousel relative mt-16 md:mt-20">
       <div className="public-hero-carousel-fade pointer-events-none absolute inset-x-0 bottom-0 z-10 h-28" aria-hidden />
-      <div className="space-y-4 md:space-y-5">
+      <div className="space-y-0">
         <HeroMarqueeRow images={heroCarouselLeftToRight} direction="left-to-right" />
         <HeroMarqueeRow images={heroCarouselRightToLeft} direction="right-to-left" />
       </div>
