@@ -84,7 +84,7 @@ class LoginController extends GetxController {
                 controller: hostController,
                 decoration: const InputDecoration(
                   labelText: 'Server IP address',
-                  hintText: '127.0.0.1 or 172.16.230.14',
+                  hintText: '172.16.228.57 or 127.0.0.1 (USB only)',
                 ),
                 keyboardType: TextInputType.number,
               ),

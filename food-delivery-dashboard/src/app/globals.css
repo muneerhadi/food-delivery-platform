@@ -135,23 +135,23 @@
   }
 
   .public-hero-carousel {
-    @apply overflow-hidden;
+    @apply w-full overflow-hidden;
   }
 
-  .public-hero-marquee-track {
+  .public-hero-marquee-inner {
     will-change: transform;
     backface-visibility: hidden;
   }
 
   .public-hero-marquee-ltr {
-    animation: public-hero-scroll-ltr 42s linear infinite;
+    animation: public-hero-scroll-ltr 36s linear infinite;
   }
 
   .public-hero-marquee-rtl {
-    animation: public-hero-scroll-rtl 38s linear infinite;
+    animation: public-hero-scroll-rtl 32s linear infinite;
   }
 
-  .public-hero-marquee:hover .public-hero-marquee-track {
+  .public-hero-marquee:hover .public-hero-marquee-inner {
     animation-play-state: paused;
   }
 
@@ -163,20 +163,20 @@
   }
 
   @keyframes public-hero-scroll-ltr {
-    from {
-      transform: translateX(-50%);
+    0% {
+      transform: translate3d(-50%, 0, 0);
     }
-    to {
-      transform: translateX(0);
+    100% {
+      transform: translate3d(0, 0, 0);
     }
   }
 
   @keyframes public-hero-scroll-rtl {
-    from {
-      transform: translateX(0);
+    0% {
+      transform: translate3d(0, 0, 0);
     }
-    to {
-      transform: translateX(-50%);
+    100% {
+      transform: translate3d(-50%, 0, 0);
     }
   }
 

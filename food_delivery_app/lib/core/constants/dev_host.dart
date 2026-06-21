@@ -11,7 +11,7 @@ import '../services/storage_service.dart';
 /// - Physical phone (same Wi‑Fi/LAN as PC): use your PC's IPv4 (run `ipconfig`)
 class DevHost {
   /// PC LAN IP — use when phone and PC are on the same Wi‑Fi.
-  static const String phoneHost = '172.16.230.1';
+  static const String phoneHost = '172.16.228.57';
 
   /// Android emulator alias for the host machine.
   static const String emulatorHost = '10.0.2.2';
@@ -36,6 +36,11 @@ class DevHost {
   static Future<void> load() async {
     final saved = await StorageService.instance.getApiHost();
     _overrideHost = _normalizeHost(saved ?? '');
+    // 127.0.0.1 only works with USB + adb reverse; on Wi‑Fi use PC LAN IP instead.
+    if (_overrideHost == usbHost || _overrideHost == 'localhost') {
+      _overrideHost = null;
+      await StorageService.instance.clearApiHost();
+    }
     if ((saved ?? '').trim().isNotEmpty && _overrideHost == null) {
       await StorageService.instance.clearApiHost();
     } else if (_overrideHost != null && _overrideHost != saved) {
