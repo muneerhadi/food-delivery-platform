@@ -5,7 +5,7 @@ export type HeroCarouselImage = {
   width: "sm" | "md" | "lg";
 };
 
-export const heroCarouselImages: HeroCarouselImage[] = [
+export const heroCarouselLeftToRight: HeroCarouselImage[] = [
   {
     src: "/hero/hero-food-salad.png",
     alt: "Fresh healthy salad bowl",
@@ -36,16 +36,40 @@ export const heroCarouselImages: HeroCarouselImage[] = [
     height: "xl",
     width: "sm",
   },
+];
+
+export const heroCarouselRightToLeft: HeroCarouselImage[] = [
   {
-    src: "/hero/hero-food-burger.png",
-    alt: "Comfort food delivery",
-    height: "sm",
-    width: "md",
-  },
-  {
-    src: "/hero/hero-food-pizza.png",
-    alt: "Artisan pizza slices",
+    src: "/hero/hero-food-tacos.png",
+    alt: "Street tacos with lime",
     height: "lg",
     width: "sm",
   },
+  {
+    src: "/hero/hero-food-pasta.png",
+    alt: "Creamy pasta carbonara",
+    height: "md",
+    width: "md",
+  },
+  {
+    src: "/hero/hero-food-cafe.png",
+    alt: "Coffee and pastry breakfast",
+    height: "xl",
+    width: "sm",
+  },
+  {
+    src: "/hero/hero-food-dessert.png",
+    alt: "Chocolate lava cake dessert",
+    height: "md",
+    width: "sm",
+  },
+  {
+    src: "/hero/hero-food-wrap.png",
+    alt: "Grilled chicken wrap",
+    height: "lg",
+    width: "md",
+  },
 ];
+
+/** @deprecated Use heroCarouselLeftToRight */
+export const heroCarouselImages = heroCarouselLeftToRight;

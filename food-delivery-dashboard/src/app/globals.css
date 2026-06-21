@@ -138,6 +138,47 @@
     @apply overflow-hidden;
   }
 
+  .public-hero-marquee-track {
+    will-change: transform;
+  }
+
+  .public-hero-marquee-ltr {
+    animation: public-hero-scroll-ltr 42s linear infinite;
+  }
+
+  .public-hero-marquee-rtl {
+    animation: public-hero-scroll-rtl 38s linear infinite;
+  }
+
+  .public-hero-marquee:hover .public-hero-marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .public-hero-marquee-ltr,
+    .public-hero-marquee-rtl {
+      animation: none;
+    }
+  }
+
+  @keyframes public-hero-scroll-ltr {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes public-hero-scroll-rtl {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   .public-hero-carousel-track {
     @apply min-w-max;
   }
