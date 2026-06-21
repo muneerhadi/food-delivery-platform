@@ -348,4 +348,67 @@
   .public-stat-pill {
     @apply inline-flex items-center gap-2 rounded-full border border-sofra-border/70 bg-white/70 px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-sm;
   }
+
+  .login-page-header {
+    @apply border-b border-sofra-border/40;
+  }
+
+  .login-page-signup-btn {
+    @apply !bg-sofra-text !text-white hover:!bg-sofra-green;
+  }
+
+  .login-page-input {
+    @apply shadow-none focus-visible:ring-sofra-green/30;
+  }
+
+  .login-page-submit {
+    @apply justify-between px-6;
+  }
+
+  .login-page-submit-icon {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15;
+  }
+
+  .login-page-divider {
+    @apply relative text-center text-xs uppercase tracking-[0.18em] text-sofra-textMuted;
+  }
+
+  .login-page-divider::before,
+  .login-page-divider::after {
+    content: "";
+    @apply absolute top-1/2 h-px w-[38%] -translate-y-1/2 bg-sofra-border/80;
+  }
+
+  .login-page-divider::before {
+    @apply left-0;
+  }
+
+  .login-page-divider::after {
+    @apply right-0;
+  }
+
+  .login-page-social-btn {
+    @apply gap-2 text-sofra-text hover:bg-sofra-softGreen/60 hover:text-sofra-text;
+  }
+
+  .login-showcase-grid {
+    @apply grid h-full grid-cols-2 gap-4;
+    grid-template-rows: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .login-showcase-card {
+    @apply overflow-hidden rounded-[1.35rem];
+  }
+
+  .login-showcase-card--square {
+    @apply min-h-[180px];
+  }
+
+  .login-showcase-card--tall {
+    @apply min-h-[240px];
+  }
+
+  .login-showcase-card--text {
+    @apply min-h-[220px];
+  }
 }
