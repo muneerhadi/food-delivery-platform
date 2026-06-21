@@ -144,15 +144,14 @@
   }
 
   .public-hero-marquee-ltr {
-    animation: public-hero-scroll-ltr 22s linear infinite;
+    animation: public-hero-scroll-ltr 42s linear infinite;
   }
 
   .public-hero-marquee-rtl {
-    animation: public-hero-scroll-rtl 20s linear infinite;
+    animation: public-hero-scroll-rtl 38s linear infinite;
   }
 
-  .public-hero-marquee:hover .public-hero-marquee-ltr,
-  .public-hero-marquee:hover .public-hero-marquee-rtl {
+  .public-hero-marquee:hover .public-hero-marquee-track {
     animation-play-state: paused;
   }
 
@@ -190,7 +189,11 @@
   }
 
   .public-hero-carousel-card {
-    @apply leading-none;
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
+  .public-hero-carousel-skeleton {
+    @apply animate-pulse bg-gradient-to-br from-sofra-softGreen via-[#dfece3] to-sofra-softGreen;
   }
 
   .public-panel {
