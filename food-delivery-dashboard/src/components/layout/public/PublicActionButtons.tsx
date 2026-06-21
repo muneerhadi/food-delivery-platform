@@ -108,7 +108,7 @@ export function PublicNavLink({ href, children, className, onNavigate }: PublicN
     <button
       type="button"
       className={cn(
-        "inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground disabled:opacity-60",
+        "inline-flex items-center gap-1.5 text-sm text-sofra-textMuted transition hover:text-sofra-text disabled:opacity-60",
         className
       )}
       disabled={loading}

@@ -32,9 +32,11 @@ export default function PublicHomePage() {
     <div className="overflow-hidden bg-white">
       <section className="relative">
         <div className="mx-auto max-w-4xl px-4 pt-16 text-center md:px-6 md:pt-24 lg:pt-28">
-          <h1 className="font-serif text-[2.35rem] font-bold leading-[1.08] tracking-tight text-foreground md:text-5xl lg:text-[3.75rem]">
-            Healthy meals,{" "}
-            <span className="italic text-sofra-mutedGold">delivered with care</span>
+          <h1 className="font-serif text-[2.35rem] font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.75rem]">
+            <span className="text-sofra-green">Healthy meals,</span>{" "}
+            <span className="bg-gradient-to-r from-sofra-gold to-sofra-mutedGold bg-clip-text italic text-transparent">
+              delivered with care
+            </span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -45,20 +47,12 @@ export default function PublicHomePage() {
             <PublicHashButton
               targetId="download"
               size="lg"
-              className="public-hero-cta h-14 rounded-full bg-foreground px-8 text-base text-background shadow-[0_16px_40px_-12px_rgba(17,59,49,0.45)] hover:bg-foreground/90"
+              className="public-hero-cta h-14 rounded-full px-8 text-base shadow-[0_16px_40px_-12px_rgba(17,59,49,0.45)]"
             >
               Download the app
               <ArrowUpRight className="h-5 w-5" />
             </PublicHashButton>
           </div>
-
-          <p className="mt-5 text-sm text-muted-foreground">
-            Restaurants and drivers can{" "}
-            <PublicNavLink href={siteConfig.dashboardLoginPath} className="font-medium text-foreground hover:text-foreground">
-              sign in here
-            </PublicNavLink>
-            .
-          </p>
         </div>
 
         <PublicHeroCarousel />
@@ -106,7 +100,7 @@ export default function PublicHomePage() {
                 href={siteConfig.playStoreUrl}
                 size="lg"
                 variant="outline"
-                className="public-btn-outline-premium h-12 min-w-[220px] bg-white/90"
+                className="public-btn-outline-premium h-12 min-w-[220px]"
               >
                 <Play className="h-5 w-5" />
                 Google Play
@@ -115,11 +109,11 @@ export default function PublicHomePage() {
 
             <p className="mt-8 text-xs text-muted-foreground">
               By using {siteConfig.name} you agree to our{" "}
-              <PublicNavLink href="/terms" className="font-medium text-primary hover:text-primary">
+              <PublicNavLink href="/terms" className="font-medium text-sofra-green hover:text-sofra-emerald">
                 Terms
               </PublicNavLink>{" "}
               and{" "}
-              <PublicNavLink href="/privacy" className="font-medium text-primary hover:text-primary">
+              <PublicNavLink href="/privacy" className="font-medium text-sofra-green hover:text-sofra-emerald">
                 Privacy Policy
               </PublicNavLink>
               .

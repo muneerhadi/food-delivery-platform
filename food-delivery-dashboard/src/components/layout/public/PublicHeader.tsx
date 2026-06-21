@@ -59,7 +59,7 @@ export function PublicHeader() {
           <PublicHashButton
             targetId="download"
             size="sm"
-            className="public-hero-cta hidden h-10 rounded-full bg-foreground px-5 text-background hover:bg-foreground/90 sm:inline-flex"
+            className="public-hero-cta hidden h-10 rounded-full px-5 sm:inline-flex"
           >
             Get the app
             <ArrowUpRight className="h-4 w-4" />
@@ -69,14 +69,14 @@ export function PublicHeader() {
             href={siteConfig.dashboardLoginPath}
             size="sm"
             variant="outline"
-            className="hidden h-10 rounded-full border-sofra-border/80 px-4 md:inline-flex"
+            className="public-btn-outline-premium hidden h-10 rounded-full px-4 md:inline-flex"
           >
-            Partner login
+            Open dashboard
           </PublicRouteButton>
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="text-sofra-text hover:bg-sofra-softGreen hover:text-sofra-text lg:hidden" aria-label="Open menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -89,7 +89,7 @@ export function PublicHeader() {
                   <PublicNavLink
                     key={link.href}
                     href={link.href}
-                    className="rounded-xl px-3 py-3 text-left text-base font-medium text-foreground hover:bg-sofra-softGreen/60"
+                    className="rounded-xl px-3 py-3 text-left text-base font-medium text-sofra-text hover:bg-sofra-softGreen hover:text-sofra-text"
                     onNavigate={() => setMobileOpen(false)}
                   >
                     {link.label}
@@ -99,14 +99,18 @@ export function PublicHeader() {
               <div className="mt-6 space-y-3 border-t border-sofra-border/60 pt-6">
                 <PublicHashButton
                   targetId="download"
-                  className="public-hero-cta h-11 w-full rounded-full bg-foreground text-background hover:bg-foreground/90"
+                  className="public-hero-cta h-11 w-full rounded-full"
                   onAction={() => setMobileOpen(false)}
                 >
                   Get the app
                   <ArrowUpRight className="h-4 w-4" />
                 </PublicHashButton>
-                <PublicRouteButton href={siteConfig.dashboardLoginPath} className="w-full rounded-full">
-                  Partner login
+                <PublicRouteButton
+                  href={siteConfig.dashboardLoginPath}
+                  variant="outline"
+                  className="public-btn-outline-premium w-full rounded-full"
+                >
+                  Open dashboard
                 </PublicRouteButton>
               </div>
             </SheetContent>

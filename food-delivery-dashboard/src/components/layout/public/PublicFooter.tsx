@@ -15,7 +15,7 @@ const footerLinks = {
     { href: "/privacy", label: "Privacy policy" },
     { href: "/terms", label: "Terms of service" },
   ],
-  partners: [{ href: siteConfig.dashboardLoginPath, label: "Partner dashboard" }],
+  partners: [{ href: siteConfig.dashboardLoginPath, label: "Open dashboard" }],
 };
 
 export function PublicFooter() {
@@ -33,7 +33,7 @@ export function PublicFooter() {
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{siteConfig.tagline}</p>
             <a
               href={`mailto:${siteConfig.supportEmail}`}
-              className="inline-block text-sm font-medium text-primary underline-offset-4 transition hover:underline"
+              className="inline-block text-sm font-medium text-sofra-green underline-offset-4 transition hover:text-sofra-emerald hover:underline"
             >
               {siteConfig.supportEmail}
             </a>

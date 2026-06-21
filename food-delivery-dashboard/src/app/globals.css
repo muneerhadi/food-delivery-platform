@@ -79,7 +79,27 @@
   }
 
   .public-site {
-    @apply text-foreground;
+    --background: 90 30% 99%;
+    --foreground: 160 54% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 54% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 54% 15%;
+    --primary: 164 100% 18%;
+    --primary-foreground: 48 100% 97%;
+    --secondary: 37 76% 58%;
+    --secondary-foreground: 160 54% 15%;
+    --muted: 150 38% 95%;
+    --muted-foreground: 165 7% 44%;
+    --accent: 150 38% 95%;
+    --accent-foreground: 160 54% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 48 100% 97%;
+    --border: 140 19% 90%;
+    --input: 140 19% 90%;
+    --ring: 164 100% 18%;
+    color-scheme: light;
+    @apply bg-white text-foreground;
   }
 
   .public-site-frame {
@@ -87,7 +107,31 @@
   }
 
   .public-hero-cta {
-    @apply gap-2 font-medium transition-all duration-200;
+    @apply gap-2 !bg-sofra-text font-medium !text-white transition-all duration-200;
+    @apply hover:!bg-sofra-green hover:!text-white;
+  }
+
+  .public-btn-premium {
+    @apply rounded-xl !bg-primary !text-white shadow-[0_4px_14px_-4px_rgba(0,93,68,0.4)] transition-all duration-200;
+    @apply hover:!bg-sofra-emerald hover:!text-white hover:shadow-[0_8px_24px_-6px_rgba(0,93,68,0.45)];
+  }
+
+  .public-btn-outline-premium {
+    @apply rounded-xl border border-sofra-border/80 !bg-white !text-sofra-text shadow-sm backdrop-blur-sm transition-all duration-200;
+    @apply hover:!border-sofra-green/40 hover:!bg-sofra-softGreen hover:!text-sofra-text hover:shadow-md;
+  }
+
+  .public-nav-link {
+    @apply relative text-sm font-medium text-sofra-textMuted transition-colors hover:text-sofra-text;
+  }
+
+  .public-nav-link::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-px w-0 bg-sofra-green transition-all duration-200;
+  }
+
+  .public-nav-link:hover::after {
+    @apply w-full;
   }
 
   .public-hero-carousel {
@@ -183,28 +227,7 @@
   }
 
   .public-prose a {
-    @apply font-medium text-primary underline-offset-4 transition hover:underline;
-  }
-
-  .public-btn-premium {
-    @apply rounded-xl shadow-[0_4px_14px_-4px_rgba(0,93,68,0.4)] transition-all duration-200 hover:shadow-[0_8px_24px_-6px_rgba(0,93,68,0.45)] hover:brightness-105;
-  }
-
-  .public-btn-outline-premium {
-    @apply rounded-xl border-sofra-border/80 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:bg-sofra-softGreen/50 hover:shadow-md;
-  }
-
-  .public-nav-link {
-    @apply relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
-  }
-
-  .public-nav-link::after {
-    content: "";
-    @apply absolute -bottom-1 left-0 h-px w-0 bg-primary transition-all duration-200;
-  }
-
-  .public-nav-link:hover::after {
-    @apply w-full;
+    @apply font-medium text-sofra-green underline-offset-4 transition hover:text-sofra-emerald hover:underline;
   }
 
   .public-logo-frame {
